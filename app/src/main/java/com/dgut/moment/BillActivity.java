@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 
+import com.dgut.moment.Fragment.BillAddFragment;
 import com.dgut.moment.Fragment.BillCheckFragment;
 import com.dgut.moment.Fragment.SimpleCardFragment;
 import com.dgut.moment.Util.ViewCenterUtils;
@@ -40,7 +41,7 @@ public class BillActivity extends AppCompatActivity {
 
 
         mFragments.add(BillCheckFragment.getInstance("This is BillCheck"));
-        mFragments.add(SimpleCardFragment.getInstance("This is 记账"));
+        mFragments.add(BillAddFragment.getInstance("This is BillAdd"));
 
         mDecorView = getWindow().getDecorView();
 

@@ -2,6 +2,7 @@ package com.dgut.moment.Bean;
 
 import com.flyco.tablayout.listener.CustomTabEntity;
 
+//选项卡选项实体类
 public class TabEntity implements CustomTabEntity {
     public String title;
     public int selectedIcon;

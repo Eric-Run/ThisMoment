@@ -50,7 +50,6 @@ public class BillCheckFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fr_bill_check, null);
-        TextView card_title_tv = (TextView) v.findViewById(R.id.card_title_tv);
 
         billRv = v.findViewById(R.id.billRv);
         billDate = v.findViewById(R.id.billDate);
