@@ -1,4 +1,4 @@
-package com.dgut.moment.Entity;
+package com.dgut.moment.Bean;
 
 import com.flyco.tablayout.listener.CustomTabEntity;
 
