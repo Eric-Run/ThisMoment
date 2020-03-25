@@ -6,8 +6,11 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dgut.moment.R;
 import com.dgut.moment.Util.DatePickerUtil;
@@ -23,6 +26,9 @@ public class BillAddFragment extends Fragment {
     private TextView billAddDate;
     private EditText billAddRemark;
     private EditText billAddSum;
+    private RadioGroup billAddType;
+    private Button billAddClear;
+    private Button billAddSave;
 
 
     public static BillAddFragment getInstance(String title) {
@@ -43,10 +49,18 @@ public class BillAddFragment extends Fragment {
         billAddDate = v.findViewById(R.id.bill_add_date);
         billAddRemark = v.findViewById(R.id.bill_add_remark);
         billAddSum = v.findViewById(R.id.bill_add_sum);
+        billAddType = v.findViewById(R.id.bill_add_type);
+        billAddSave = v.findViewById(R.id.bill_add_save);
 
+        //billAddType.getCheckedRadioButtonId();
+
+        //设置光标
         clickShowCursor(billAddRemark);
         clickShowCursor(billAddSum);
+        //设置日期
         initAddDate();
+        //监听保存按钮
+        listenSaveBtn();
 
         return v;
     }
@@ -74,6 +88,19 @@ public class BillAddFragment extends Fragment {
                     editText.setCursorVisible(true);// 再次点击显示光标
                 }
                 return false;
+            }
+        });
+    }
+
+    //监听保存按钮
+    private void listenSaveBtn(){
+        billAddSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                billAddRemark.setText("");
+                billAddSum.setText("");
+                Toast.makeText(getActivity(),"成功记下一笔账",Toast.LENGTH_SHORT).show();
             }
         });
     }
