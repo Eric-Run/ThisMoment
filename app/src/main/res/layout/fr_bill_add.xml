@@ -19,7 +19,7 @@
             android:layout_marginBottom="3dp"
             android:layout_marginRight="20dp"
             android:text="日期："
-            android:textSize="18dp"
+            android:textSize="16dp"
             android:textColor="#000000"
             android:gravity="center"/>
         <TextView
@@ -44,7 +44,7 @@
             android:layout_marginBottom="3dp"
             android:layout_marginRight="20dp"
             android:text="备注："
-            android:textSize="18dp"
+            android:textSize="16dp"
             android:textColor="#000000"
             android:gravity="center"/>
         <EditText
@@ -70,7 +70,7 @@
             android:layout_marginBottom="3dp"
             android:layout_marginRight="20dp"
             android:text="金额："
-            android:textSize="18dp"
+            android:textSize="16dp"
             android:textColor="#000000"
             android:gravity="center"/>
         <EditText

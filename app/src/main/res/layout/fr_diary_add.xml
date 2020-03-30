@@ -5,13 +5,89 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/card_title_tv"
+
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"
-        android:background="@drawable/background_card"
-        android:gravity="center"
-        android:textSize="18sp"/>
+        android:fillViewport="true"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="15dp">
+
+            <EditText
+                android:id="@+id/diary_add_title"
+                android:layout_width="220dp"
+                android:layout_height="40dp"
+                android:hint="标题"
+                android:singleLine="true"
+                android:background="@drawable/background_card"
+                android:layout_gravity="center"
+                android:gravity="center"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="450dp"
+                android:layout_margin="10dp"
+                android:padding="10dp"
+                android:background="@drawable/background_card">
+
+
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="top"
+                    android:textSize="18sp"
+                    android:background="#ffffff"
+                    android:scrollbars="vertical"
+                    />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
+                <Button
+                    android:id="@+id/diary_add_moodBtn"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"/>
+                <TextView
+                    android:id="@+id/diary_add_mood"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="happy"
+                    android:visibility="gone"
+                    />
+                <Button
+                    android:id="@+id/diary_add_weatherBtn"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"/>
+                <TextView
+                    android:id="@+id/diary_add_weather"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="sunny"
+                    android:visibility="gone"
+                    />
+                <TextView
+                    android:id="@+id/diary_add_date"
+                    android:layout_width="140dp"
+                    android:layout_height="match_parent"
+                    android:text="2020-03-02"
+                    android:textSize="18sp"
+                    android:gravity="right"
+                    android:layout_gravity="right"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
 
 </RelativeLayout>
