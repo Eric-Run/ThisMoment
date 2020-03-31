@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_happy"
+        android:icon="@mipmap/happy"
+        android:title="心情靓靓"/>
+    <item
+        android:id="@+id/menu_scared"
+        android:icon="@mipmap/scared"
+        android:title="害怕极了" />
+
+    <item
+        android:id="@+id/menu_notbad"
+        android:icon="@mipmap/notbad"
+        android:title="无事发生"/>
+    <item
+        android:id="@+id/menu_upset"
+        android:icon="@mipmap/upset"
+        android:title="浑身难受" />
+
+</menu>

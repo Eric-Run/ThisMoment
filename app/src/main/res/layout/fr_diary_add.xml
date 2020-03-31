@@ -33,9 +33,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="450dp"
-                android:layout_margin="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:padding="10dp"
-                android:background="@drawable/background_card">
+                android:background="#ffffff">
 
 
 
@@ -53,22 +55,30 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp">
+                android:layout_height="50dp"
+                android:background="@drawable/background_card"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="right">
                 <Button
                     android:id="@+id/diary_add_moodBtn"
-                    android:layout_width="60dp"
-                    android:layout_height="match_parent"/>
+                    android:background="@mipmap/scared"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="10dp"/>
                 <TextView
                     android:id="@+id/diary_add_mood"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="happy"
+                    android:text="scared"
                     android:visibility="gone"
                     />
                 <Button
                     android:id="@+id/diary_add_weatherBtn"
-                    android:layout_width="60dp"
-                    android:layout_height="match_parent"/>
+                    android:background="@mipmap/sunny"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="10dp"/>
                 <TextView
                     android:id="@+id/diary_add_weather"
                     android:layout_width="wrap_content"
@@ -78,8 +88,9 @@
                     />
                 <TextView
                     android:id="@+id/diary_add_date"
-                    android:layout_width="140dp"
+                    android:layout_width="100dp"
                     android:layout_height="match_parent"
+                    android:layout_marginRight="5dp"
                     android:text="2020-03-02"
                     android:textSize="18sp"
                     android:gravity="right"

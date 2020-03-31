@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_sunny"
+        android:icon="@mipmap/sunny"
+        android:title="阳光普照"/>
+    <item
+        android:id="@+id/menu_cloudy"
+        android:icon="@mipmap/cloudy"
+        android:title="乌云密布" />
+
+    <item
+        android:id="@+id/menu_rainy"
+        android:icon="@mipmap/rainy"
+        android:title="连绵细雨"/>
+    <item
+        android:id="@+id/menu_snowy"
+        android:icon="@mipmap/snowy"
+        android:title="鹅毛大雪" />
+
+</menu>
