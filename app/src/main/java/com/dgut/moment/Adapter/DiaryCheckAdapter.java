@@ -84,10 +84,11 @@ public class DiaryCheckAdapter extends RecyclerView.Adapter<DiaryCheckAdapter.Vi
             @Override
             public void onClick(View v) {
 
+                Diary diary1 = diaries.get(position);
                 Toast.makeText(mcontext,"进入日记详情页面",Toast.LENGTH_SHORT).show();
                 DiaryDetailFragment diaryDetailFragment = new DiaryDetailFragment();
                 Bundle bundle = new Bundle();//声明一个Bundle对象
-                bundle.putSerializable("diary",diary);   //向下传递单词信息
+                bundle.putSerializable("diary",diary1);   //向下传递单词信息
                 diaryDetailFragment.setArguments(bundle);
 
                 FragmentTransaction transaction = ((FragmentActivity)mcontext).getSupportFragmentManager().beginTransaction();
@@ -138,7 +139,7 @@ public class DiaryCheckAdapter extends RecyclerView.Adapter<DiaryCheckAdapter.Vi
     }
 
     public void removeData(int position) {
-        Size--;
+        diaries.remove(position);
         //删除动画
         notifyItemRemoved(position);
         notifyDataSetChanged();
