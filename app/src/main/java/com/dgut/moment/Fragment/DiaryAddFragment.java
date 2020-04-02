@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,8 +31,11 @@ public class DiaryAddFragment extends Fragment {
     private TextView addMood;
     private TextView addWeather;
     private TextView addDate;
+    private EditText addTitle;
+    private EditText addContent;
     private Button moodBtn;
     private Button weatherBtn;
+    private Button saveBtn;
 
     public static DiaryAddFragment getInstance(String title) {
         DiaryAddFragment sf = new DiaryAddFragment();
@@ -52,7 +56,10 @@ public class DiaryAddFragment extends Fragment {
         addWeather = v.findViewById(R.id.diary_add_weather);
         addDate = v.findViewById(R.id.diary_add_date);
         moodBtn = v.findViewById(R.id.diary_add_moodBtn);
+        addTitle = v.findViewById(R.id.diary_add_title);
+        addContent = v.findViewById(R.id.diary_add_content);
         weatherBtn = v.findViewById(R.id.diary_add_weatherBtn);
+        saveBtn = v.findViewById(R.id.diary_add_save);
 
         setBtnListen();
         initAddDate();
@@ -182,6 +189,22 @@ public class DiaryAddFragment extends Fragment {
                     e.printStackTrace();
                 }
                 popupMenu.show();
+            }
+        });
+
+        //监听保存按钮
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String text = "Title:"+addTitle.getText().toString()+"\n"
+                        +"Content:"+addContent.getText().toString()+"\n"
+                        +"Mood:"+addMood.getText().toString()+"\n"
+                        +"Weather"+addWeather.getText().toString()+"\n"
+                        +"Date:"+addDate.getText().toString();
+                Log.d("Diary_Add",text);
+
+                Toast.makeText(getActivity(),"成功记下一篇日记",Toast.LENGTH_SHORT).show();
             }
         });
     }

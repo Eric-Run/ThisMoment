@@ -2,12 +2,21 @@ package com.dgut.moment.Bean;
 
 public class BillCheckDetail {
 
+    private int BCDid;
     private String tag;
     private String num;
 
     public BillCheckDetail(String tag, String num) {
         this.tag = tag;
         this.num = num;
+    }
+
+    public int getBCDid() {
+        return BCDid;
+    }
+
+    public void setBCDid(int BCDid) {
+        this.BCDid = BCDid;
     }
 
     public String getNum() {

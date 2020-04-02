@@ -3,7 +3,9 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/basic1"
+    android:id="@+id/diary_detail_layout">
 
 
 
@@ -20,7 +22,8 @@
             android:paddingTop="15dp">
 
             <EditText
-                android:id="@+id/diary_add_title"
+                android:enabled="false"
+                android:id="@+id/diary_detail_title"
                 android:layout_width="220dp"
                 android:layout_height="40dp"
                 android:hint="标题"
@@ -42,7 +45,8 @@
 
 
                 <EditText
-                    android:id="@+id/diary_add_content"
+                    android:enabled="false"
+                    android:id="@+id/diary_detail_content"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="top"
@@ -62,33 +66,35 @@
                 android:layout_marginLeft="10dp"
                 android:gravity="right">
                 <Button
-                    android:id="@+id/diary_add_moodBtn"
+                    android:clickable="false"
+                    android:id="@+id/diary_detail_moodBtn"
                     android:background="@mipmap/scared"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginRight="15dp"/>
                 <TextView
-                    android:id="@+id/diary_add_mood"
+                    android:id="@+id/diary_detail_mood"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="scared"
                     android:visibility="gone"
                     />
                 <Button
-                    android:id="@+id/diary_add_weatherBtn"
+                    android:clickable="false"
+                    android:id="@+id/diary_detail_weatherBtn"
                     android:background="@mipmap/sunny"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginRight="10dp"/>
                 <TextView
-                    android:id="@+id/diary_add_weather"
+                    android:id="@+id/diary_detail_weather"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="sunny"
                     android:visibility="gone"
                     />
                 <TextView
-                    android:id="@+id/diary_add_date"
+                    android:id="@+id/diary_detail_date"
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="5dp"
@@ -103,7 +109,20 @@
                 android:layout_marginTop="5dp"
                 android:gravity="center">
                 <Button
-                    android:id="@+id/diary_add_save"
+                    android:id="@+id/diary_detail_modify"
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    android:text="修改"
+                    android:background="@drawable/background_card"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:visibility="gone">
+                <Button
+                    android:id="@+id/diary_detail_save"
                     android:layout_width="120dp"
                     android:layout_height="match_parent"
                     android:text="保存"

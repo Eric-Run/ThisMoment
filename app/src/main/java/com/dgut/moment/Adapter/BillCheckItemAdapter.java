@@ -11,15 +11,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dgut.moment.Bean.BillCheckDetail;
-import com.dgut.moment.Bean.BillCheckItem;
 import com.dgut.moment.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class BillCheckItemAdapter extends RecyclerView.Adapter<BillCheckItemAdapter.ViewHolder> {

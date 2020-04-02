@@ -4,6 +4,7 @@ import java.util.List;
 
 public class BillCheckItem {
 
+    public int BCIid;
     public String BillDay;
     public double DayIncome;
     public double DayOutgo;
@@ -20,6 +21,14 @@ public class BillCheckItem {
         DayIncome = dayIncome;
         DayOutgo = dayOutgo;
         this.billCheckDetails = billCheckDetails;
+    }
+
+    public int getBCIid() {
+        return BCIid;
+    }
+
+    public void setBCIid(int BCIid) {
+        this.BCIid = BCIid;
     }
 
     public List<BillCheckDetail> getBillCheckDetails() {
