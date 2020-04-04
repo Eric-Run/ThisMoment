@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,9 +10,82 @@
     android:id="@+id/planLayout"
     >
 
-    <TextView
+    <!--<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="ThisIsPlan"
-        android:gravity="center"/>
+        android:orientation="vertical"
+        android:padding="15dp"
+        >
+
+        <CalendarView
+            android:id="@+id/plan_calendar"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/test"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="ThisIsPlan"
+            android:gravity="center"
+            android:background="@drawable/background_card"
+            />
+    </LinearLayout>-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+        <com.haibin.calendarview.CalendarLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp"
+            android:paddingBottom="10dp"
+            >
+            <com.haibin.calendarview.CalendarView
+                android:id="@+id/plan_calendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                app:select_mode="single_mode"
+                app:month_view="com.dgut.moment.View.ProgressMonthView"
+
+                app:week_background="@color/basic1"
+                app:day_text_size="14sp"
+                app:lunar_text_size="8sp"
+
+                app:selected_text_color="@color/basic3"
+                app:selected_lunar_text_color="@color/basic3"
+                app:selected_theme_color="@color/basic5"
+                app:scheme_theme_color="@color/red"
+                app:scheme_month_text_color="@color/red"
+                app:scheme_lunar_text_color="@color/red"
+                app:scheme_text_color="@color/red"
+                app:current_month_lunar_text_color="@color/black"
+                app:current_month_text_color="#333333"
+                app:current_day_lunar_text_color="@color/blue"
+                app:other_month_text_color="@color/gray"
+                app:other_month_lunar_text_color="@color/gray"
+
+
+                />
+
+        </com.haibin.calendarview.CalendarLayout>
+        <TextView
+            android:id="@+id/test"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="ThisIsPlan"
+            android:gravity="center"
+            android:background="@drawable/background_card"
+            />
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

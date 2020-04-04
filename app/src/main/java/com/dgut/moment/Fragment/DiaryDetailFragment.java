@@ -155,7 +155,12 @@ public class DiaryDetailFragment extends Fragment {
             public void onClick(View v) {
                 Log.d("Diary_Detail","Modification finished");
                 //保存数据
-
+                String text = "Title:"+TitleEt.getText().toString()+"\n"
+                        +"Content:"+ContentEt.getText().toString()+"\n"
+                        +"Mood:"+MoodTv.getText().toString()+"\n"
+                        +"Weather"+WeatherTv.getText().toString()+"\n"
+                        +"Date:"+DateTv.getText().toString();
+                Log.d("Diary_Detail",text);
                 //设置控件不可点击
                 setAble(false);
                 TitleEt.setFocusable(false);
@@ -187,26 +192,26 @@ public class DiaryDetailFragment extends Fragment {
                             case R.id.menu_happy:
                                 MoodBtn.setBackgroundResource(R.mipmap.happy);
                                 MoodTv.setText("happy");
-                                Toast.makeText(getContext(),"Happy!!!",Toast.LENGTH_SHORT).show();
-                                Log.d("Diary_Add","pick mood ====>"+MoodTv.getText().toString());
+//                                Toast.makeText(getContext(),"Happy!!!",Toast.LENGTH_SHORT).show();
+                                Log.d("Diary_Detail","pick mood ====>"+MoodTv.getText().toString());
                                 break;
                             case R.id.menu_scared:
                                 MoodBtn.setBackgroundResource(R.mipmap.scared);
                                 MoodTv.setText("scared");
-                                Toast.makeText(getContext(),"Scared!!!",Toast.LENGTH_SHORT).show();
-                                Log.d("Diary_Add","pick mood ====>"+MoodTv.getText().toString());
+//                                Toast.makeText(getContext(),"Scared!!!",Toast.LENGTH_SHORT).show();
+                                Log.d("Diary_Detail","pick mood ====>"+MoodTv.getText().toString());
                                 break;
                             case R.id.menu_notbad:
                                 MoodBtn.setBackgroundResource(R.mipmap.notbad);
                                 MoodTv.setText("notbad");
-                                Toast.makeText(getContext(),"Notbad!!!",Toast.LENGTH_SHORT).show();
-                                Log.d("Diary_Add","pick mood ====>"+MoodTv.getText().toString());
+//                                Toast.makeText(getContext(),"Notbad!!!",Toast.LENGTH_SHORT).show();
+                                Log.d("Diary_Detail","pick mood ====>"+MoodTv.getText().toString());
                                 break;
                             case R.id.menu_upset:
                                 MoodBtn.setBackgroundResource(R.mipmap.upset);
                                 MoodTv.setText("upset");
-                                Toast.makeText(getContext(),"Upset!!!",Toast.LENGTH_SHORT).show();
-                                Log.d("Diary_Add","pick mood ====>"+MoodTv.getText().toString());
+//                                Toast.makeText(getContext(),"Upset!!!",Toast.LENGTH_SHORT).show();
+                                Log.d("Diary_Detail","pick mood ====>"+MoodTv.getText().toString());
                                 break;
 
                         }
@@ -244,26 +249,26 @@ public class DiaryDetailFragment extends Fragment {
                             case R.id.menu_sunny:
                                 WeatherBtn.setBackgroundResource(R.mipmap.sunny);
                                 WeatherTv.setText("sunny");
-                                Toast.makeText(getContext(),"Sunny!!!",Toast.LENGTH_SHORT).show();
-                                Log.d("Diary_Add","pick weather ====>"+WeatherTv.getText().toString());
+//                                Toast.makeText(getContext(),"Sunny!!!",Toast.LENGTH_SHORT).show();
+                                Log.d("Diary_Detail","pick weather ====>"+WeatherTv.getText().toString());
                                 break;
                             case R.id.menu_cloudy:
                                 WeatherBtn.setBackgroundResource(R.mipmap.cloudy);
                                 WeatherTv.setText("cloudy");
-                                Toast.makeText(getContext(),"Cloudy!!!",Toast.LENGTH_SHORT).show();
-                                Log.d("Diary_Add","pick weather ====>"+WeatherTv.getText().toString());
+//                                Toast.makeText(getContext(),"Cloudy!!!",Toast.LENGTH_SHORT).show();
+                                Log.d("Diary_Detail","pick weather ====>"+WeatherTv.getText().toString());
                                 break;
                             case R.id.menu_rainy:
                                 WeatherBtn.setBackgroundResource(R.mipmap.rainy);
                                 WeatherTv.setText("rainy");
-                                Toast.makeText(getContext(),"Rainy!!!",Toast.LENGTH_SHORT).show();
-                                Log.d("Diary_Add","pick weather ====>"+WeatherTv.getText().toString());
+//                                Toast.makeText(getContext(),"Rainy!!!",Toast.LENGTH_SHORT).show();
+                                Log.d("Diary_Detail","pick weather ====>"+WeatherTv.getText().toString());
                                 break;
                             case R.id.menu_snowy:
                                 WeatherBtn.setBackgroundResource(R.mipmap.snowy);
                                 WeatherTv.setText("snowy");
-                                Toast.makeText(getContext(),"Snowy!!!",Toast.LENGTH_SHORT).show();
-                                Log.d("Diary_Add","pick weather ====>"+WeatherTv.getText().toString());
+//                                Toast.makeText(getContext(),"Snowy!!!",Toast.LENGTH_SHORT).show();
+                                Log.d("Diary_Detail","pick weather ====>"+WeatherTv.getText().toString());
                                 break;
 
                         }

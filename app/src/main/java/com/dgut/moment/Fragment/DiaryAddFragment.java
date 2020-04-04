@@ -98,25 +98,25 @@ public class DiaryAddFragment extends Fragment {
                             case R.id.menu_happy:
                                 moodBtn.setBackgroundResource(R.mipmap.happy);
                                 addMood.setText("happy");
-                                Toast.makeText(getContext(),"Happy!!!",Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getContext(),"Happy!!!",Toast.LENGTH_SHORT).show();
                                 Log.d("Diary_Add","pick mood ====>"+addMood.getText().toString());
                                 break;
                             case R.id.menu_scared:
                                 moodBtn.setBackgroundResource(R.mipmap.scared);
                                 addMood.setText("scared");
-                                Toast.makeText(getContext(),"Scared!!!",Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getContext(),"Scared!!!",Toast.LENGTH_SHORT).show();
                                 Log.d("Diary_Add","pick mood ====>"+addMood.getText().toString());
                                 break;
                             case R.id.menu_notbad:
                                 moodBtn.setBackgroundResource(R.mipmap.notbad);
                                 addMood.setText("notbad");
-                                Toast.makeText(getContext(),"Notbad!!!",Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getContext(),"Notbad!!!",Toast.LENGTH_SHORT).show();
                                 Log.d("Diary_Add","pick mood ====>"+addMood.getText().toString());
                                 break;
                             case R.id.menu_upset:
                                 moodBtn.setBackgroundResource(R.mipmap.upset);
                                 addMood.setText("upset");
-                                Toast.makeText(getContext(),"Upset!!!",Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getContext(),"Upset!!!",Toast.LENGTH_SHORT).show();
                                 Log.d("Diary_Add","pick mood ====>"+addMood.getText().toString());
                                 break;
 
@@ -153,25 +153,25 @@ public class DiaryAddFragment extends Fragment {
                             case R.id.menu_sunny:
                                 weatherBtn.setBackgroundResource(R.mipmap.sunny);
                                 addWeather.setText("sunny");
-                                Toast.makeText(getContext(),"Sunny!!!",Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getContext(),"Sunny!!!",Toast.LENGTH_SHORT).show();
                                 Log.d("Diary_Add","pick weather ====>"+addWeather.getText().toString());
                                 break;
                             case R.id.menu_cloudy:
                                 weatherBtn.setBackgroundResource(R.mipmap.cloudy);
                                 addWeather.setText("cloudy");
-                                Toast.makeText(getContext(),"Cloudy!!!",Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getContext(),"Cloudy!!!",Toast.LENGTH_SHORT).show();
                                 Log.d("Diary_Add","pick weather ====>"+addWeather.getText().toString());
                                 break;
                             case R.id.menu_rainy:
                                 weatherBtn.setBackgroundResource(R.mipmap.rainy);
                                 addWeather.setText("rainy");
-                                Toast.makeText(getContext(),"Rainy!!!",Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getContext(),"Rainy!!!",Toast.LENGTH_SHORT).show();
                                 Log.d("Diary_Add","pick weather ====>"+addWeather.getText().toString());
                                 break;
                             case R.id.menu_snowy:
                                 weatherBtn.setBackgroundResource(R.mipmap.snowy);
                                 addWeather.setText("snowy");
-                                Toast.makeText(getContext(),"Snowy!!!",Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getContext(),"Snowy!!!",Toast.LENGTH_SHORT).show();
                                 Log.d("Diary_Add","pick weather ====>"+addWeather.getText().toString());
                                 break;
 
