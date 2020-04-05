@@ -6,8 +6,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dgut.moment.Bean.BillCheckDetail;
@@ -19,26 +17,23 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class BillCheckItemAdapter extends RecyclerView.Adapter<BillCheckItemAdapter.ViewHolder> {
+public class PlanItemAdapter extends RecyclerView.Adapter<PlanItemAdapter.ViewHolder> {
 
     private Context mcontext;
     public List<BillCheckDetail> billCheckDetails;
-    private int Size = 10;
+    private int Size = 4;
 
-    public BillCheckItemAdapter(List<BillCheckDetail> billCheckDetails) {
+    public PlanItemAdapter(List<BillCheckDetail> billCheckDetails) {
         this.billCheckDetails = billCheckDetails;
     }
 
+    public PlanItemAdapter() {
+    }
+
     static class ViewHolder extends RecyclerView.ViewHolder{
-        TextView bill_detail_tag;
-        TextView bill_detail_num;
-        LinearLayout bill_detail_layout;
 
         public ViewHolder(View view){
             super(view);
-            bill_detail_tag = view.findViewById(R.id.bill_detail_tag);
-            bill_detail_num = view.findViewById(R.id.bill_detail_num);
-            bill_detail_layout = view.findViewById(R.id.bill_detail_layout);
 
         }
     }
@@ -48,14 +43,14 @@ public class BillCheckItemAdapter extends RecyclerView.Adapter<BillCheckItemAdap
         if(mcontext ==null){
             mcontext = parent.getContext();
         }
-        View view = LayoutInflater.from(mcontext).inflate(R.layout.bill_check_detail,parent,false);
+        View view = LayoutInflater.from(mcontext).inflate(R.layout.plan_item,parent,false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
-        if(billCheckDetails != null){
+        /*if(billCheckDetails != null){
             BillCheckDetail billCheckDetail = billCheckDetails.get(position);
             Log.d("AAAAA",billCheckDetail.getTag());
             holder.bill_detail_tag.setText(billCheckDetail.getTag());
@@ -83,7 +78,8 @@ public class BillCheckItemAdapter extends RecyclerView.Adapter<BillCheckItemAdap
                     return false;
                 }
             });
-        }
+        }*/
+
     }
 
     @Override

@@ -52,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                app:select_mode="single_mode"
+                app:month_view_show_mode="mode_only_current"
                 app:month_view="com.dgut.moment.View.ProgressMonthView"
 
                 app:week_background="@color/basic1"
@@ -67,8 +67,8 @@
                 app:scheme_lunar_text_color="@color/red"
                 app:scheme_text_color="@color/red"
                 app:current_month_lunar_text_color="@color/black"
-                app:current_month_text_color="#333333"
-                app:current_day_lunar_text_color="@color/blue"
+                app:current_day_text_color="@color/white"
+                app:current_day_lunar_text_color="@color/white"
                 app:other_month_text_color="@color/gray"
                 app:other_month_lunar_text_color="@color/gray"
 
@@ -76,15 +76,69 @@
                 />
 
         </com.haibin.calendarview.CalendarLayout>
-        <TextView
-            android:id="@+id/test"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="ThisIsPlan"
-            android:gravity="center"
-            android:background="@drawable/background_card"
-            />
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:paddingTop="10dp"
+                android:paddingLeft="5dp"
+                android:paddingBottom="10dp"
+                android:paddingRight="10dp"
+                android:background="@color/basic2"
+                >
+                <TextView
+                    android:id="@+id/plan_date"
+                    android:layout_width="130dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="12月12号"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="28sp"/>
+                <LinearLayout
+                    android:layout_width="45dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/plan_year"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center|left"
+                        android:text="2020"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"/>
+                    <TextView
+                        android:id="@+id/plan_lunar"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center|left"
+                        android:text="十四"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="2dp"
+                android:overScrollMode="never"
+                android:background="@drawable/background_card">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/plan_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </ScrollView>
+
+        </LinearLayout>
+
 
     </LinearLayout>
 

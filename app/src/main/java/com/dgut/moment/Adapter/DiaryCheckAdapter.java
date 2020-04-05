@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -20,7 +19,6 @@ import com.dgut.moment.R;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
@@ -64,7 +62,7 @@ public class DiaryCheckAdapter extends RecyclerView.Adapter<DiaryCheckAdapter.Vi
         if(mcontext ==null){
             mcontext = parent.getContext();
         }
-        View view = LayoutInflater.from(mcontext).inflate(R.layout.fr_diary_check_item,parent,false);
+        View view = LayoutInflater.from(mcontext).inflate(R.layout.diary_check_item,parent,false);
         return new ViewHolder(view);
     }
 

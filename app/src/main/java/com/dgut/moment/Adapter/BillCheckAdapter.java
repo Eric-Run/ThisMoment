@@ -6,12 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.dgut.moment.Bean.BillCheckDetail;
 import com.dgut.moment.Bean.BillCheckItem;
 import com.dgut.moment.R;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -49,7 +47,7 @@ public class BillCheckAdapter extends RecyclerView.Adapter<BillCheckAdapter.View
         if(mcontext ==null){
             mcontext = parent.getContext();
         }
-        View view = LayoutInflater.from(mcontext).inflate(R.layout.fr_bill_check_item,parent,false);
+        View view = LayoutInflater.from(mcontext).inflate(R.layout.bill_check_item,parent,false);
         return new ViewHolder(view);
     }
 

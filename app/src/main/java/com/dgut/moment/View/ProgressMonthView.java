@@ -77,12 +77,12 @@ public class ProgressMonthView extends MonthView {
         mTextPaint.setFakeBoldText(true);
 
 
-        mSolarTermTextPaint.setColor(0xff489dff);
+        mSolarTermTextPaint.setColor(0xff000000);
         mSolarTermTextPaint.setAntiAlias(true);
         mSolarTermTextPaint.setTextAlign(Paint.Align.CENTER);
 
         mSchemeBasicPaint.setAntiAlias(true);
-        mSchemeBasicPaint.setStyle(Paint.Style.STROKE);
+        mSchemeBasicPaint.setStyle(Paint.Style.FILL);
         mSchemeBasicPaint.setTextAlign(Paint.Align.CENTER);
         mSchemeBasicPaint.setFakeBoldText(true);
         mSchemeBasicPaint.setColor(Color.WHITE);
@@ -115,7 +115,8 @@ public class ProgressMonthView extends MonthView {
         mSelectedPaint.setMaskFilter(new BlurMaskFilter(28, BlurMaskFilter.Blur.SOLID));
 
         setLayerType(View.LAYER_TYPE_SOFTWARE, mSchemeBasicPaint);
-        mSchemeBasicPaint.setMaskFilter(new BlurMaskFilter(28, BlurMaskFilter.Blur.SOLID));
+        //光晕效果
+//        mSchemeBasicPaint.setMaskFilter(new BlurMaskFilter(28, BlurMaskFilter.Blur.SOLID));
     }
 
     @Override
@@ -136,7 +137,7 @@ public class ProgressMonthView extends MonthView {
     @Override
     protected void onDrawScheme(Canvas canvas, Calendar calendar, int x, int y) {
         mSchemeBasicPaint.setColor(calendar.getSchemeColor());
-        mTextPaint.setColor(calendar.getSchemeColor());
+//        mTextPaint.setColor(calendar.getSchemeColor());
 
         canvas.drawCircle(x + mItemWidth - mPadding - mRadio / 2, y + mPadding + mRadio, mRadio, mSchemeBasicPaint);
 
