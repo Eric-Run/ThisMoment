@@ -90,7 +90,7 @@ public class DiaryCheckAdapter extends RecyclerView.Adapter<DiaryCheckAdapter.Vi
                 diaryDetailFragment.setArguments(bundle);
 
                 FragmentTransaction transaction = ((FragmentActivity)mcontext).getSupportFragmentManager().beginTransaction();
-                transaction.addToBackStack(null) .replace(R.id.diary_check_layout,diaryDetailFragment);
+                transaction.addToBackStack(null).replace(R.id.diary_check_layout,diaryDetailFragment);
                 transaction.setCustomAnimations(R.anim.anim_in,R.anim.anim_out,R.anim.anim_in,R.anim.anim_out)
                         .commit();
 

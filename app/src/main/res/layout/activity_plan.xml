@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -52,6 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
+                app:select_mode="single_mode"
                 app:month_view_show_mode="mode_only_current"
                 app:month_view="com.dgut.moment.View.ProgressMonthView"
 
@@ -77,6 +78,7 @@
 
         </com.haibin.calendarview.CalendarLayout>
         <LinearLayout
+            android:id="@+id/plan_item_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -142,4 +144,4 @@
 
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

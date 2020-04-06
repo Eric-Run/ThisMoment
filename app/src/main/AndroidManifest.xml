@@ -10,7 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MeActivity"></activity>
-        <activity android:name=".PlanActivity" />
+        <activity android:name=".PlanActivity"
+            android:windowSoftInputMode="adjustPan">
+
+        </activity>
         <activity android:name=".BillActivity" />
         <activity android:name=".DiaryActivity" />
         <activity android:name=".MainActivity">

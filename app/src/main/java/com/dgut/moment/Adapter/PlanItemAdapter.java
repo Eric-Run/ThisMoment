@@ -1,20 +1,25 @@
 package com.dgut.moment.Adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.dgut.moment.Bean.BillCheckDetail;
+import com.dgut.moment.Fragment.PlanDetailFragment;
 import com.dgut.moment.R;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class PlanItemAdapter extends RecyclerView.Adapter<PlanItemAdapter.ViewHolder> {
@@ -30,11 +35,18 @@ public class PlanItemAdapter extends RecyclerView.Adapter<PlanItemAdapter.ViewHo
     public PlanItemAdapter() {
     }
 
+    public PlanItemAdapter(int size) {
+        Size = size;
+    }
+
     static class ViewHolder extends RecyclerView.ViewHolder{
+
+        LinearLayout PlanItem;
 
         public ViewHolder(View view){
             super(view);
 
+            PlanItem = view.findViewById(R.id.plan_item);
         }
     }
     @NonNull
@@ -79,6 +91,20 @@ public class PlanItemAdapter extends RecyclerView.Adapter<PlanItemAdapter.ViewHo
                 }
             });
         }*/
+
+        holder.PlanItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                PlanDetailFragment planDetailFragment = new PlanDetailFragment();
+
+
+                FragmentTransaction transaction = ((FragmentActivity)mcontext).getSupportFragmentManager().beginTransaction();
+                transaction.addToBackStack(null).replace(R.id.planLayout,planDetailFragment);
+                transaction.setCustomAnimations(R.anim.anim_in,R.anim.anim_out,R.anim.anim_in,R.anim.anim_out)
+                        .commit();
+            }
+        });
 
     }
 

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.dgut.moment.Adapter.PlanItemAdapter;
@@ -37,7 +38,7 @@ public class PlanActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plan);
 
-        ConstraintLayout ll=findViewById(R.id.planLayout);
+        FrameLayout ll=findViewById(R.id.planLayout);
         ViewCenterUtils.setActivityStartAnim(this, ll, getIntent());
 
         /*calendarView = findViewById(R.id.plan_calendar);
@@ -57,12 +58,6 @@ public class PlanActivity extends AppCompatActivity {
         calendarView = findViewById(R.id.plan_calendar);
         PlanRv = findViewById(R.id.plan_rv);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        PlanRv.setLayoutManager(layoutManager);
-        PlanItemAdapter adapter = new PlanItemAdapter();
-        PlanRv.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build()); //划分割线
-        PlanRv.setAdapter(adapter);
-
 
         int year = calendarView.getCurYear();
         int month = calendarView.getCurMonth();
@@ -72,7 +67,11 @@ public class PlanActivity extends AppCompatActivity {
         YearTv.setText(year+"");
         LunarTv.setText("今日");
 
-
+        LinearLayoutManager layoutManager = new LinearLayoutManager(PlanActivity.this);
+        PlanRv.setLayoutManager(layoutManager);
+        PlanItemAdapter adapter = new PlanItemAdapter(month);
+        PlanRv.addItemDecoration(new HorizontalDividerItemDecoration.Builder(PlanActivity.this).build()); //划分割线
+        PlanRv.setAdapter(adapter);
 
         Map<String, Calendar> map = new HashMap<>();
         map.put(getSchemeCalendar(year, month, 3, "20").toString(),
@@ -98,6 +97,12 @@ public class PlanActivity extends AppCompatActivity {
                 DateTv.setText(calendar.getMonth()+"月"+calendar.getDay()+"日");
                 YearTv.setText(calendar.getYear()+"");
                 LunarTv.setText(calendar.getLunar()+"");
+
+                LinearLayoutManager layoutManager = new LinearLayoutManager(PlanActivity.this);
+                PlanRv.setLayoutManager(layoutManager);
+                PlanItemAdapter adapter = new PlanItemAdapter(month);
+                PlanRv.addItemDecoration(new HorizontalDividerItemDecoration.Builder(PlanActivity.this).build()); //划分割线
+                PlanRv.setAdapter(adapter);
             }
         });
     }
