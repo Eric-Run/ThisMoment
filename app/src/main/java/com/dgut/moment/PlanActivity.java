@@ -1,8 +1,8 @@
 package com.dgut.moment;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,17 +10,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.dgut.moment.Adapter.PlanItemAdapter;
+import com.dgut.moment.Fragment.PlanAddFragment;
 import com.dgut.moment.Util.ViewCenterUtils;
 import com.haibin.calendarview.Calendar;
 import com.haibin.calendarview.CalendarView;
-import com.haibin.calendarview.LunarUtil;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +32,7 @@ public class PlanActivity extends AppCompatActivity {
     private TextView YearTv;
     private TextView LunarTv;
     private RecyclerView PlanRv;
+    private Button CreateBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,22 +58,35 @@ public class PlanActivity extends AppCompatActivity {
         LunarTv = findViewById(R.id.plan_lunar);
         calendarView = findViewById(R.id.plan_calendar);
         PlanRv = findViewById(R.id.plan_rv);
+        CreateBtn = findViewById(R.id.plan_create);
 
+        initView();  //初始化界面
+
+        setListener();  //设置监听器
+
+
+    }
+
+    //初始化界面
+    private void initView(){
 
         int year = calendarView.getCurYear();
         int month = calendarView.getCurMonth();
         int day = calendarView.getCurDay();
 
+        //显示年、月、日
         DateTv.setText(month+"月"+day+"日");
         YearTv.setText(year+"");
         LunarTv.setText("今日");
 
+        //初始化计划列表
         LinearLayoutManager layoutManager = new LinearLayoutManager(PlanActivity.this);
         PlanRv.setLayoutManager(layoutManager);
         PlanItemAdapter adapter = new PlanItemAdapter(month);
         PlanRv.addItemDecoration(new HorizontalDividerItemDecoration.Builder(PlanActivity.this).build()); //划分割线
         PlanRv.setAdapter(adapter);
 
+        //模拟标记
         Map<String, Calendar> map = new HashMap<>();
         map.put(getSchemeCalendar(year, month, 3, "20").toString(),
                 getSchemeCalendar(year, month, 3, "20"));
@@ -80,6 +94,12 @@ public class PlanActivity extends AppCompatActivity {
                 getSchemeCalendar(year, month, 15, "5"));
         calendarView.setSchemeDate(map);
 
+    }
+
+    //设置监听器
+    private void setListener(){
+
+        //选择日子
         calendarView.setOnCalendarSelectListener(new CalendarView.OnCalendarSelectListener() {
             @Override
             public void onCalendarOutOfRange(Calendar calendar) {
@@ -98,6 +118,7 @@ public class PlanActivity extends AppCompatActivity {
                 YearTv.setText(calendar.getYear()+"");
                 LunarTv.setText(calendar.getLunar()+"");
 
+                //计划列表随日期改标
                 LinearLayoutManager layoutManager = new LinearLayoutManager(PlanActivity.this);
                 PlanRv.setLayoutManager(layoutManager);
                 PlanItemAdapter adapter = new PlanItemAdapter(month);
@@ -105,6 +126,20 @@ public class PlanActivity extends AppCompatActivity {
                 PlanRv.setAdapter(adapter);
             }
         });
+
+        //创建计划跳转
+        CreateBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PlanAddFragment planAddFragment = new PlanAddFragment();
+
+                FragmentTransaction transaction = ((FragmentActivity)PlanActivity.this).getSupportFragmentManager().beginTransaction();
+                transaction.addToBackStack(null).replace(R.id.planLayout,planAddFragment);
+                transaction.setCustomAnimations(R.anim.anim_in,R.anim.anim_out,R.anim.anim_in,R.anim.anim_out)
+                        .commit();
+            }
+        });
+
     }
 
     private Calendar getSchemeCalendar(int year, int month, int day, String text) {

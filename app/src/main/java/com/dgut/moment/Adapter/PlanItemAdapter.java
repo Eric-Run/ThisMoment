@@ -1,17 +1,16 @@
 package com.dgut.moment.Adapter;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dgut.moment.Bean.BillCheckDetail;
-import com.dgut.moment.Fragment.PlanDetailFragment;
+import com.dgut.moment.Fragment.PlanModifyFragment;
 import com.dgut.moment.R;
 
 import java.util.List;
@@ -42,11 +41,13 @@ public class PlanItemAdapter extends RecyclerView.Adapter<PlanItemAdapter.ViewHo
     static class ViewHolder extends RecyclerView.ViewHolder{
 
         LinearLayout PlanItem;
+        TextView PlanContent;
 
         public ViewHolder(View view){
             super(view);
 
             PlanItem = view.findViewById(R.id.plan_item);
+            PlanContent = view.findViewById(R.id.plan_item_content);
         }
     }
     @NonNull
@@ -62,47 +63,33 @@ public class PlanItemAdapter extends RecyclerView.Adapter<PlanItemAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
-        /*if(billCheckDetails != null){
-            BillCheckDetail billCheckDetail = billCheckDetails.get(position);
-            Log.d("AAAAA",billCheckDetail.getTag());
-            holder.bill_detail_tag.setText(billCheckDetail.getTag());
-            holder.bill_detail_num.setText(billCheckDetail.getNum()+"");
-
-            holder.bill_detail_layout.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    PopupMenu popupMenu = new PopupMenu(mcontext,v);
-                    popupMenu.getMenuInflater().inflate(R.menu.bill_item_menu,popupMenu.getMenu());
-
-                    //弹出式菜单的菜单项点击事件
-                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            if(item.getItemId()==R.id.bill_delete) {
-                                removeData(position);
-                                Toast.makeText(mcontext,holder.bill_detail_tag.getText()+"的账单已被删除",Toast.LENGTH_SHORT).show();
-                            }
-                            return false;
-                        }
-                    });
-                    popupMenu.show();
-                    return false;
-                }
-            });
-        }*/
-
-        holder.PlanItem.setOnClickListener(new View.OnClickListener() {
+        holder.PlanItem.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onLongClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(mcontext,v);
+                popupMenu.getMenuInflater().inflate(R.menu.bill_item_menu,popupMenu.getMenu());
 
-                PlanDetailFragment planDetailFragment = new PlanDetailFragment();
+                //弹出式菜单的菜单项点击事件
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        if(item.getItemId()==R.id.bill_delete) {
+                            removeData(position);
+                            Toast.makeText(mcontext,holder.PlanContent.getText()+"已被删除",Toast.LENGTH_SHORT).show();
+                        }else if(item.getItemId()==R.id.bill_change){
+                            PlanModifyFragment planDetailFragment = new PlanModifyFragment();
 
-                FragmentTransaction transaction = ((FragmentActivity)mcontext).getSupportFragmentManager().beginTransaction();
-                transaction.addToBackStack(null).replace(R.id.planLayout,planDetailFragment);
-                transaction.setCustomAnimations(R.anim.anim_in,R.anim.anim_out,R.anim.anim_in,R.anim.anim_out)
-                        .commit();
+                            FragmentTransaction transaction = ((FragmentActivity)mcontext).getSupportFragmentManager().beginTransaction();
+                            transaction.addToBackStack(null).replace(R.id.planLayout,planDetailFragment);
+                            transaction.setCustomAnimations(R.anim.anim_in,R.anim.anim_out,R.anim.anim_in,R.anim.anim_out)
+                                    .commit();
+                        }
+                        return false;
+                    }
+                });
+                popupMenu.show();
+                return false;
             }
         });
 
@@ -118,8 +105,9 @@ public class PlanItemAdapter extends RecyclerView.Adapter<PlanItemAdapter.ViewHo
     }
 
     public void removeData(int position) {
-        billCheckDetails.remove(position);
+        //billCheckDetails.remove(position);
         //删除动画
+        Size--;
         notifyItemRemoved(position);
         notifyDataSetChanged();
     }

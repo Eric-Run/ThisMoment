@@ -34,5 +34,5 @@ dependencies {
 
     implementation 'com.yqritc:recyclerview-flexibledivider:1.4.0' //列表分割线
     implementation 'com.haibin:calendarview:3.6.7'
-
+    implementation 'com.contrarywind:Android-PickerView:3.2.7'
 }
