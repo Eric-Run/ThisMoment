@@ -3,6 +3,7 @@ package com.dgut.moment;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -98,7 +99,7 @@ public class PlanActivity extends AppCompatActivity {
         //初始化计划列表
         LinearLayoutManager layoutManager = new LinearLayoutManager(PlanActivity.this);
         PlanRv.setLayoutManager(layoutManager);
-        PlanItemAdapter adapter = new PlanItemAdapter(month);
+        PlanItemAdapter adapter = new PlanItemAdapter(month); //传入日期数据
         PlanRv.addItemDecoration(new HorizontalDividerItemDecoration.Builder(PlanActivity.this).build()); //划分割线
         PlanRv.setAdapter(adapter);
 
@@ -135,10 +136,10 @@ public class PlanActivity extends AppCompatActivity {
                 LunarTv.setText(calendar.getLunar()+"");
 
                 //计划列表随日期改标
+//                PlanRv.removeItemDecoration(new HorizontalDividerItemDecoration.Builder(PlanActivity.this).build());
                 LinearLayoutManager layoutManager = new LinearLayoutManager(PlanActivity.this);
                 PlanRv.setLayoutManager(layoutManager);
                 PlanItemAdapter adapter = new PlanItemAdapter(month);
-                PlanRv.addItemDecoration(new HorizontalDividerItemDecoration.Builder(PlanActivity.this).build()); //划分割线
                 PlanRv.setAdapter(adapter);
             }
         });
@@ -150,7 +151,7 @@ public class PlanActivity extends AppCompatActivity {
                 PlanAddFragment planAddFragment = new PlanAddFragment();
                 FragmentTransaction transaction = ((FragmentActivity)PlanActivity.this).getSupportFragmentManager().beginTransaction();
                 transaction.addToBackStack(null).replace(R.id.planLayout,planAddFragment);
-                transaction.setCustomAnimations(R.anim.anim_in,R.anim.anim_out,R.anim.anim_in,R.anim.anim_out)
+                transaction.setCustomAnimations(R.anim.anim_in,R.anim.anim_out)
                         .commit();
             }
         });
@@ -167,7 +168,8 @@ public class PlanActivity extends AppCompatActivity {
 //                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);;
 //                alarmManager.set(AlarmManager.RTC_WAKEUP,curDate.getTime(),buildIntent(1));
 
-                CalendarReminderUtils.addCalendarEvent(PlanActivity.this,"Test0458","finally",curDate.getTime()+(60 * 1000),0);
+                //添加系统日历事件
+//                CalendarReminderUtils.addCalendarEvent(PlanActivity.this,"Test0458","finally",curDate.getTime()+(60 * 1000),0);
 
             }
         });

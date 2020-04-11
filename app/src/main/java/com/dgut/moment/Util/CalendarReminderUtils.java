@@ -97,45 +97,55 @@ public class CalendarReminderUtils {
     /**
      * 添加日历事件
      */
-    public static void addCalendarEvent(Context context, String title, String description, long reminderTime, int previousDate) {
+    /**
+     *
+     * @param context
+     * @param title  提醒事件内容
+     * @param planTime  计划时间
+     * @param previousTime  提醒时间
+     * @return
+     */
+    public static int addCalendarEvent(Context context, String title, long planTime, int previousTime) {
         if (context == null) {
-            return;
+            return -1;
         }
         int calId = checkAndAddCalendarAccount(context); //获取日历账户的id
         if (calId < 0) { //获取账户id失败直接返回，添加日历事件失败
-            return;
+            return -1;
         }
 
         //添加日历事件
         Calendar mCalendar = Calendar.getInstance();
-        mCalendar.setTimeInMillis(reminderTime);//设置开始时间
+        mCalendar.setTimeInMillis(planTime);//设置开始时间
+
         long start = mCalendar.getTime().getTime();
 //        mCalendar.setTimeInMillis(start + 10 * 60 * 1000);//设置终止时间，开始时间加10分钟
-        mCalendar.setTimeInMillis(start + 2 * 60 * 1000);//设置终止时间，开始时间加2分钟
+//        mCalendar.setTimeInMillis(start + 2 * 60 * 1000);//设置终止时间，开始时间加2分钟
 
         long end = mCalendar.getTime().getTime();
         ContentValues event = new ContentValues();
         event.put("title", title);
-        event.put("description", description);
+//        event.put("description", description); //事件描述
         event.put("calendar_id", calId); //插入账户的id
         event.put(CalendarContract.Events.DTSTART, start);
-        event.put(CalendarContract.Events.DTEND, end);
+        event.put(CalendarContract.Events.DTEND, end); //终止时间
         event.put(CalendarContract.Events.HAS_ALARM, 1);//设置有闹钟提醒
         event.put(CalendarContract.Events.EVENT_TIMEZONE, "Asia/Shanghai");//这个是时区，必须有
         Uri newEvent = context.getContentResolver().insert(Uri.parse(CALENDER_EVENT_URL), event); //添加事件
         if (newEvent == null) { //添加日历事件失败直接返回
-            return;
+            return -1;
         }
 
         //事件提醒的设定
         ContentValues values = new ContentValues();
         values.put(CalendarContract.Reminders.EVENT_ID, ContentUris.parseId(newEvent));
-        values.put(CalendarContract.Reminders.MINUTES, previousDate * 24 * 60);// 提前previousDate天有提醒
+        values.put(CalendarContract.Reminders.MINUTES, previousTime);// 提前previousDate分钟有提醒
         values.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT);
         Uri uri = context.getContentResolver().insert(Uri.parse(CALENDER_REMINDER_URL), values);
         if(uri == null) { //添加事件提醒失败直接返回
-            return;
+            return -1;
         }
+        return 1;
     }
 
     /**
