@@ -130,7 +130,13 @@
                     android:paddingTop="2dp"
                     android:gravity="center|right">
 
-
+                    <Button
+                        android:id="@+id/plan_test"
+                        android:layout_gravity="center"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@mipmap/add"/>
                         <Button
                             android:id="@+id/plan_create"
                             android:layout_gravity="center"

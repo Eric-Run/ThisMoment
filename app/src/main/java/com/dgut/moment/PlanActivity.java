@@ -6,6 +6,10 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,16 +20,23 @@ import android.widget.TextView;
 
 import com.dgut.moment.Adapter.PlanItemAdapter;
 import com.dgut.moment.Fragment.PlanAddFragment;
+import com.dgut.moment.Receiver.ClockReceiver;
+import com.dgut.moment.Service.ClockService;
+import com.dgut.moment.Util.CalendarReminderUtils;
+import com.dgut.moment.Util.ClockManager;
 import com.dgut.moment.Util.ViewCenterUtils;
 import com.haibin.calendarview.Calendar;
 import com.haibin.calendarview.CalendarView;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class PlanActivity extends AppCompatActivity {
 
+    private static final String TAG="PlanActivity";
     private TextView test;
     private com.haibin.calendarview.CalendarView calendarView;
     private TextView DateTv;
@@ -33,6 +44,9 @@ public class PlanActivity extends AppCompatActivity {
     private TextView LunarTv;
     private RecyclerView PlanRv;
     private Button CreateBtn;
+    private Button TestBtn;
+
+    private ClockManager clockManager = new ClockManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +73,8 @@ public class PlanActivity extends AppCompatActivity {
         calendarView = findViewById(R.id.plan_calendar);
         PlanRv = findViewById(R.id.plan_rv);
         CreateBtn = findViewById(R.id.plan_create);
+
+        TestBtn = findViewById(R.id.plan_test);
 
         initView();  //初始化界面
 
@@ -132,7 +148,6 @@ public class PlanActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 PlanAddFragment planAddFragment = new PlanAddFragment();
-
                 FragmentTransaction transaction = ((FragmentActivity)PlanActivity.this).getSupportFragmentManager().beginTransaction();
                 transaction.addToBackStack(null).replace(R.id.planLayout,planAddFragment);
                 transaction.setCustomAnimations(R.anim.anim_in,R.anim.anim_out,R.anim.anim_in,R.anim.anim_out)
@@ -140,6 +155,34 @@ public class PlanActivity extends AppCompatActivity {
             }
         });
 
+        //测试定时提醒
+        TestBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Log.d(TAG,"try to set reminder");
+                SimpleDateFormat formatter = new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
+                Date curDate =  new Date(System.currentTimeMillis());
+//                clockManager.addAlarm(buildIntent(1),curDate);
+//                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);;
+//                alarmManager.set(AlarmManager.RTC_WAKEUP,curDate.getTime(),buildIntent(1));
+
+                CalendarReminderUtils.addCalendarEvent(PlanActivity.this,"Test0458","finally",curDate.getTime()+(60 * 1000),0);
+
+            }
+        });
+
+    }
+
+    private PendingIntent buildIntent(int id) {
+//        Intent intent = new Intent();
+//        intent.putExtra(ClockReceiver.EXTRA_EVENT_ID, id);
+//        intent.setClass(this, ClockReceiver.class);
+        Intent  intent=new Intent();
+        intent.setAction("com.example.myapp.RING");
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(PlanActivity.this,0x102,intent,0);
+
+        return pendingIntent;
     }
 
     private Calendar getSchemeCalendar(int year, int month, int day, String text) {
