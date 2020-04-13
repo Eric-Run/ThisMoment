@@ -16,6 +16,8 @@ import com.dgut.moment.Bean.Diary;
 import com.dgut.moment.Fragment.DiaryDetailFragment;
 import com.dgut.moment.R;
 
+import org.litepal.LitePal;
+
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -138,10 +140,14 @@ public class DiaryCheckAdapter extends RecyclerView.Adapter<DiaryCheckAdapter.Vi
     }
 
     public void removeData(int position) {
+        //删除数据库数据
+        LitePal.delete(Diary.class,diaries.get(position).getId());
+        //删除当前list子数据
         diaries.remove(position);
         //删除动画
         notifyItemRemoved(position);
         notifyDataSetChanged();
     }
+
 
 }

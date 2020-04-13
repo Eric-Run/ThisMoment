@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +11,8 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.dgut.moment.Adapter.BillCheckAdapter;
-import com.dgut.moment.Bean.BillCheckDetail;
-import com.dgut.moment.Bean.BillCheckItem;
+import com.dgut.moment.Bean.Bill;
+import com.dgut.moment.Bean.BillDetail;
 import com.dgut.moment.R;
 
 import java.text.SimpleDateFormat;
@@ -63,29 +62,29 @@ public class BillCheckFragment extends Fragment {
 
     //显示日账单
     private void showDailyBill(){
-        List<BillCheckItem> billCheckItems = new ArrayList<>();
-        List<BillCheckDetail> billCheckDetails = new ArrayList<>();
-//        List<List<BillCheckDetail>> bill = new ArrayList<>();
+        List<Bill> bills = new ArrayList<>();
+        List<BillDetail> billDetails = new ArrayList<>();
+//        List<List<BillDetail>> bill = new ArrayList<>();
 
-//        billCheckItems.add(new BillCheckItem("03-04",100,100));
-//        billCheckItems.add(new BillCheckItem("03-05",120,110));
-//        billCheckItems.add(new BillCheckItem("03-06",130,120));
-//        billCheckItems.add(new BillCheckItem("03-07",140,130));
+//        bills.add(new Bill("03-04",100,100));
+//        bills.add(new Bill("03-05",120,110));
+//        bills.add(new Bill("03-06",130,120));
+//        bills.add(new Bill("03-07",140,130));
 
-        billCheckDetails.add(new BillCheckDetail("衣服","-100.0"));
-        billCheckDetails.add(new BillCheckDetail("午饭","-10.0"));
-        billCheckDetails.add(new BillCheckDetail("兼职","120.0"));
-        billCheckDetails.add(new BillCheckDetail("房租","-1130.0"));
+        billDetails.add(new BillDetail("衣服",-100));
+        billDetails.add(new BillDetail("午饭",-10));
+        billDetails.add(new BillDetail("兼职",120));
+        billDetails.add(new BillDetail("房租",-1130));
 
-        billCheckItems.add(new BillCheckItem("03-04",100,100,billCheckDetails));
-        billCheckItems.add(new BillCheckItem("03-05",120,110,billCheckDetails));
-        billCheckItems.add(new BillCheckItem("03-06",130,120,billCheckDetails));
-        billCheckItems.add(new BillCheckItem("03-07",140,130,billCheckDetails));
-        billCheckItems.add(new BillCheckItem("03-08",140,130,billCheckDetails));
+        bills.add(new Bill("03-04",100,100, billDetails));
+        bills.add(new Bill("03-05",120,110, billDetails));
+        bills.add(new Bill("03-06",130,120, billDetails));
+        bills.add(new Bill("03-07",140,130, billDetails));
+        bills.add(new Bill("03-08",140,130, billDetails));
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         billRv.setLayoutManager(layoutManager);
-        BillCheckAdapter adapter = new BillCheckAdapter(billCheckItems);
+        BillCheckAdapter adapter = new BillCheckAdapter(bills);
         billRv.setAdapter(adapter);
     }
 

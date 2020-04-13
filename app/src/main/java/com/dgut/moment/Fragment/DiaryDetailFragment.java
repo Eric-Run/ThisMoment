@@ -18,7 +18,10 @@ import android.widget.Toast;
 import com.dgut.moment.Bean.Diary;
 import com.dgut.moment.R;
 import com.dgut.moment.Util.DatePickerUtil;
+import com.dgut.moment.Util.ToastUtil;
 import com.dgut.moment.Util.ViewCenterUtils;
+
+import org.litepal.LitePal;
 
 import java.lang.reflect.Field;
 
@@ -153,14 +156,20 @@ public class DiaryDetailFragment extends Fragment {
         SaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Diary_Detail","Modification finished");
                 //保存数据
-                String text = "Title:"+TitleEt.getText().toString()+"\n"
+                /*String text = "Title:"+TitleEt.getText().toString()+"\n"
                         +"Content:"+ContentEt.getText().toString()+"\n"
                         +"Mood:"+MoodTv.getText().toString()+"\n"
                         +"Weather"+WeatherTv.getText().toString()+"\n"
-                        +"Date:"+DateTv.getText().toString();
-                Log.d("Diary_Detail",text);
+                        +"Date:"+DateTv.getText().toString();*/
+                Diary diary1 = LitePal.find(Diary.class,diary.getId());
+                diary1.setTitle(TitleEt.getText().toString());
+                diary1.setContent(ContentEt.getText().toString());
+                diary1.setDate(DateTv.getText().toString());
+                diary1.setMood(MoodTv.getText().toString());
+                diary1.setWeather(WeatherTv.getText().toString());
+                Log.d("Diary_Detail",diary1.toString());
+                diary1.save();
                 //设置控件不可点击
                 setAble(false);
                 TitleEt.setFocusable(false);
@@ -170,6 +179,9 @@ public class DiaryDetailFragment extends Fragment {
                 //设置隐藏、显示按钮
                 ModifyLayout.setVisibility(View.VISIBLE);
                 SelectLayout.setVisibility(View.GONE);
+
+                ToastUtil.ToastCenter(getContext(),"修改日记成功！");
+                Log.d("Diary_Detail","Modification finished");
 
             }
         });

@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.dgut.moment.Bean.BillCheckItem;
+import com.dgut.moment.Bean.Bill;
 import com.dgut.moment.R;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
@@ -19,11 +19,11 @@ import androidx.recyclerview.widget.RecyclerView;
 public class BillCheckAdapter extends RecyclerView.Adapter<BillCheckAdapter.ViewHolder> {
 
     private Context mcontext;
-    public List<BillCheckItem> billCheckItems;
+    public List<Bill> bills;
     private int Size = 10;
 
-    public BillCheckAdapter(List<BillCheckItem> billCheckItems) {
-        this.billCheckItems = billCheckItems;
+    public BillCheckAdapter(List<Bill> bills) {
+        this.bills = bills;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder{
@@ -54,24 +54,24 @@ public class BillCheckAdapter extends RecyclerView.Adapter<BillCheckAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        if(billCheckItems != null){
-            BillCheckItem billCheckItem = billCheckItems.get(position);
-            holder.billDay.setText(billCheckItem.getBillDay());
-            holder.day_income.setText(billCheckItem.getDayIncome()+"");
-            holder.day_outgo.setText(billCheckItem.getDayOutgo()+"");
+        if(bills != null){
+            Bill bill = bills.get(position);
+            holder.billDay.setText(bill.getBillday());
+            holder.day_income.setText(bill.getIncome()+"");
+            holder.day_outgo.setText(bill.getOutgo()+"");
 
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mcontext);
             holder.bill_detail_rv.setLayoutManager(linearLayoutManager);
             holder.bill_detail_rv.addItemDecoration(new HorizontalDividerItemDecoration.Builder(mcontext).build());//添加分割线
-            BillCheckItemAdapter adapter = new BillCheckItemAdapter(billCheckItem.getBillCheckDetails());
+            BillCheckItemAdapter adapter = new BillCheckItemAdapter(bill.getBilldetail());
             holder.bill_detail_rv.setAdapter(adapter);
         }
     }
 
     @Override
     public int getItemCount() {
-        if(billCheckItems!=null){
-            return billCheckItems.size();
+        if(bills !=null){
+            return bills.size();
         }else {
             return Size; //返回数组长度
         }

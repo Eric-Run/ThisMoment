@@ -14,8 +14,10 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dgut.moment.Bean.Diary;
 import com.dgut.moment.R;
 import com.dgut.moment.Util.DatePickerUtil;
+import com.dgut.moment.Util.ToastUtil;
 
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
@@ -36,6 +38,9 @@ public class DiaryAddFragment extends Fragment {
     private Button moodBtn;
     private Button weatherBtn;
     private Button saveBtn;
+
+    private SimpleDateFormat formatter = new SimpleDateFormat ("yyyy-MM-dd");
+    private Date curDate =  new Date(System.currentTimeMillis());
 
     public static DiaryAddFragment getInstance(String title) {
         DiaryAddFragment sf = new DiaryAddFragment();
@@ -68,8 +73,6 @@ public class DiaryAddFragment extends Fragment {
 
     //设置初始日期，监听选择日期
     private void initAddDate(){
-        SimpleDateFormat formatter = new SimpleDateFormat ("yyyy-MM-dd");
-        Date curDate =  new Date(System.currentTimeMillis());
         addDate.setText(formatter.format(curDate));
         addDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -197,14 +200,21 @@ public class DiaryAddFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                String text = "Title:"+addTitle.getText().toString()+"\n"
-                        +"Content:"+addContent.getText().toString()+"\n"
-                        +"Mood:"+addMood.getText().toString()+"\n"
-                        +"Weather"+addWeather.getText().toString()+"\n"
-                        +"Date:"+addDate.getText().toString();
-                Log.d("Diary_Add",text);
+                //添加数据库数据
+                Diary diary = new Diary();
+                diary.setTitle(addTitle.getText().toString());
+                diary.setContent(addContent.getText().toString());
+                diary.setDate(addDate.getText().toString());
+                diary.setMood(addMood.getText().toString());
+                diary.setWeather(addWeather.getText().toString());
+                Log.d("Diary_Add",diary.toString());
+                diary.save();
 
-                Toast.makeText(getActivity(),"成功记下一篇日记",Toast.LENGTH_SHORT).show();
+                addTitle.setText("");
+                addContent.setText("");
+                addDate.setText(formatter.format(curDate));
+
+                ToastUtil.ToastCenter(getContext(),"成功记下一篇日记");
             }
         });
     }

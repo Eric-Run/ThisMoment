@@ -3,13 +3,10 @@ package com.dgut.moment;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,10 +18,6 @@ import android.widget.TextView;
 
 import com.dgut.moment.Adapter.PlanItemAdapter;
 import com.dgut.moment.Fragment.PlanAddFragment;
-import com.dgut.moment.Receiver.ClockReceiver;
-import com.dgut.moment.Service.ClockService;
-import com.dgut.moment.Util.CalendarReminderUtils;
-import com.dgut.moment.Util.ClockManager;
 import com.dgut.moment.Util.ViewCenterUtils;
 import com.haibin.calendarview.Calendar;
 import com.haibin.calendarview.CalendarView;
@@ -46,8 +39,6 @@ public class PlanActivity extends AppCompatActivity {
     private RecyclerView PlanRv;
     private Button CreateBtn;
     private Button TestBtn;
-
-    private ClockManager clockManager = new ClockManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

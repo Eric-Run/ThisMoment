@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dgut.moment.Bean.BillCheckDetail;
+import com.dgut.moment.Bean.BillDetail;
 import com.dgut.moment.Fragment.PlanModifyFragment;
 import com.dgut.moment.R;
 
@@ -24,11 +24,11 @@ import androidx.recyclerview.widget.RecyclerView;
 public class PlanItemAdapter extends RecyclerView.Adapter<PlanItemAdapter.ViewHolder> {
 
     private Context mcontext;
-    public List<BillCheckDetail> billCheckDetails;
+    public List<BillDetail> billDetails;
     private int Size = 4;
 
-    public PlanItemAdapter(List<BillCheckDetail> billCheckDetails) {
-        this.billCheckDetails = billCheckDetails;
+    public PlanItemAdapter(List<BillDetail> billDetails) {
+        this.billDetails = billDetails;
     }
 
     public PlanItemAdapter() {
@@ -97,15 +97,15 @@ public class PlanItemAdapter extends RecyclerView.Adapter<PlanItemAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        if(billCheckDetails!=null){
-            return billCheckDetails.size();
+        if(billDetails !=null){
+            return billDetails.size();
         }else {
             return Size; //返回数组长度
         }
     }
 
     public void removeData(int position) {
-        //billCheckDetails.remove(position);
+        //billDetails.remove(position);
         //删除动画
         Size--;
         notifyItemRemoved(position);

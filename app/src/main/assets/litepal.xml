@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+
+    <dbname value = "moment" ></dbname>
+    <version value="1" ></version>
+
+    <list>
+        <mapping class="com.dgut.moment.Bean.Bill" />
+        <mapping class="com.dgut.moment.Bean.BillDetail" />
+        <mapping class="com.dgut.moment.Bean.Diary" />
+        <mapping class="com.dgut.moment.Bean.Plan" />
+    </list>
+</litepal>

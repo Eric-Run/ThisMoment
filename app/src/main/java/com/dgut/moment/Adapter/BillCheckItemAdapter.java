@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dgut.moment.Bean.BillCheckDetail;
+import com.dgut.moment.Bean.BillDetail;
 import com.dgut.moment.R;
 
 import java.util.List;
@@ -22,11 +22,11 @@ import androidx.recyclerview.widget.RecyclerView;
 public class BillCheckItemAdapter extends RecyclerView.Adapter<BillCheckItemAdapter.ViewHolder> {
 
     private Context mcontext;
-    public List<BillCheckDetail> billCheckDetails;
+    public List<BillDetail> billDetails;
     private int Size = 10;
 
-    public BillCheckItemAdapter(List<BillCheckDetail> billCheckDetails) {
-        this.billCheckDetails = billCheckDetails;
+    public BillCheckItemAdapter(List<BillDetail> billDetails) {
+        this.billDetails = billDetails;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder{
@@ -55,11 +55,11 @@ public class BillCheckItemAdapter extends RecyclerView.Adapter<BillCheckItemAdap
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
-        if(billCheckDetails != null){
-            BillCheckDetail billCheckDetail = billCheckDetails.get(position);
-            Log.d("AAAAA",billCheckDetail.getTag());
-            holder.bill_detail_tag.setText(billCheckDetail.getTag());
-            holder.bill_detail_num.setText(billCheckDetail.getNum()+"");
+        if(billDetails != null){
+            BillDetail billDetail = billDetails.get(position);
+            Log.d("AAAAA", billDetail.getTag());
+            holder.bill_detail_tag.setText(billDetail.getTag());
+            holder.bill_detail_num.setText(billDetail.getSum()+"");
 
             holder.bill_detail_layout.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -88,15 +88,15 @@ public class BillCheckItemAdapter extends RecyclerView.Adapter<BillCheckItemAdap
 
     @Override
     public int getItemCount() {
-        if(billCheckDetails!=null){
-            return billCheckDetails.size();
+        if(billDetails !=null){
+            return billDetails.size();
         }else {
             return Size; //返回数组长度
         }
     }
 
     public void removeData(int position) {
-        billCheckDetails.remove(position);
+        billDetails.remove(position);
         //删除动画
         notifyItemRemoved(position);
         notifyDataSetChanged();
