@@ -60,7 +60,7 @@ public class BillCheckAdapter extends RecyclerView.Adapter<BillCheckAdapter.View
 
         if(bills != null){
             Bill bill = bills.get(position);
-            holder.billDay.setText(bill.getBillday());
+            holder.billDay.setText(bill.getBillday().substring(5));
             holder.day_income.setText(bill.getIncome()+"");
             holder.day_outgo.setText(bill.getOutgo()+"");
 
@@ -69,6 +69,7 @@ public class BillCheckAdapter extends RecyclerView.Adapter<BillCheckAdapter.View
             holder.bill_detail_rv.addItemDecoration(new HorizontalDividerItemDecoration.Builder(mcontext).build());//添加分割线
             BillCheckItemAdapter adapter = new BillCheckItemAdapter(bill.getBilldetail());
             holder.bill_detail_rv.setAdapter(adapter);
+
         }
     }
 

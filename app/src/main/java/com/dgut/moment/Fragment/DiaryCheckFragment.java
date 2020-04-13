@@ -64,11 +64,15 @@ public class DiaryCheckFragment extends Fragment {
         diaries.add(new Diary("六","六六大顺","scared","rainy","2019-07-23"));*/
         diaries.clear();
         diaries = LitePal.findAll(Diary.class);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        DiaryCheckRv.setLayoutManager(layoutManager);
-        DiaryCheckAdapter adapter = new DiaryCheckAdapter(diaries);
-        adapter.notifyDataSetChanged();
-        DiaryCheckRv.setAdapter(adapter);
+        if(!diaries.isEmpty()) {
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+            DiaryCheckRv.setLayoutManager(layoutManager);
+            DiaryCheckAdapter adapter = new DiaryCheckAdapter(diaries);
+            adapter.notifyDataSetChanged();
+            DiaryCheckRv.setAdapter(adapter);
+        }else {
+            //提示无数据
+        }
     }
 
     private void setRefresh(){

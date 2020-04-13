@@ -10,8 +10,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dgut.moment.Bean.Bill;
 import com.dgut.moment.Bean.BillDetail;
+import com.dgut.moment.Bean.Diary;
 import com.dgut.moment.R;
+
+import org.litepal.LitePal;
 
 import java.util.List;
 
@@ -96,6 +100,22 @@ public class BillCheckItemAdapter extends RecyclerView.Adapter<BillCheckItemAdap
     }
 
     public void removeData(int position) {
+
+        //删除数据库数据
+        LitePal.delete(BillDetail.class,billDetails.get(position).getId());
+        List<Bill> bills = LitePal.where("billday = ?",billDetails.get(position).getBday()).find(Bill.class);
+        if (bills.get(0).getBilldetail().isEmpty()) {
+            LitePal.deleteAll(Bill.class, "billday = ?", billDetails.get(position).getBday());
+        } else {
+            float sum = billDetails.get(position).getSum();
+            if (sum > 0) {
+                bills.get(0).setIncome(bills.get(0).getIncome() - sum);
+            } else {
+                bills.get(0).setOutgo(bills.get(0).getOutgo() + sum);
+            }
+            bills.get(0).save();
+        }
+
         billDetails.remove(position);
         //删除动画
         notifyItemRemoved(position);

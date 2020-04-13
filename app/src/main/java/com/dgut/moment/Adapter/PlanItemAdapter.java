@@ -67,17 +67,17 @@ public class PlanItemAdapter extends RecyclerView.Adapter<PlanItemAdapter.ViewHo
             @Override
             public boolean onLongClick(View v) {
                 PopupMenu popupMenu = new PopupMenu(mcontext,v);
-                popupMenu.getMenuInflater().inflate(R.menu.bill_item_menu,popupMenu.getMenu());
+                popupMenu.getMenuInflater().inflate(R.menu.plan_item_menu,popupMenu.getMenu());
 
                 //弹出式菜单的菜单项点击事件
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        if(item.getItemId()==R.id.bill_delete) {
+                        if(item.getItemId()==R.id.plan_delete) {
                             removeData(position);
                             Toast.makeText(mcontext,holder.PlanContent.getText()+"已被删除",Toast.LENGTH_SHORT).show();
-                        }else if(item.getItemId()==R.id.bill_change){
+                        }else if(item.getItemId()==R.id.plan_change){
                             PlanModifyFragment planDetailFragment = new PlanModifyFragment();
 
                             FragmentTransaction transaction = ((FragmentActivity)mcontext).getSupportFragmentManager().beginTransaction();

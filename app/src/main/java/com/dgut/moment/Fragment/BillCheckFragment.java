@@ -38,6 +38,8 @@ public class BillCheckFragment extends Fragment {
     private RecyclerView billRv;
     private SwipeRefreshLayout swipeRefreshLayout;
 
+    List<Bill> bills = new ArrayList<>();
+
 
     public static BillCheckFragment getInstance(String title) {
         BillCheckFragment sf = new BillCheckFragment();
@@ -77,7 +79,8 @@ public class BillCheckFragment extends Fragment {
     //显示日账单
     private void showDailyBill(){
         Log.d("Bill_Check",billDate.getText().toString());
-        List<Bill> bills = LitePal.where("billday like ?","%"+billDate.getText().toString()+"%").find(Bill.class);
+        bills.clear();
+        bills = LitePal.where("billday like ?","%"+billDate.getText().toString()+"%").find(Bill.class);
         List<BillDetail> billDetails = new ArrayList<>();
         /*
 //        List<List<BillDetail>> bill = new ArrayList<>();
@@ -111,6 +114,8 @@ public class BillCheckFragment extends Fragment {
             billRv.setLayoutManager(layoutManager);
             BillCheckAdapter adapter = new BillCheckAdapter(bills);
             billRv.setAdapter(adapter);
+        }else {
+            //提示无数据
         }
         //月支出/收入
         incomeTv.setText(in+"");
