@@ -2,6 +2,7 @@ package com.dgut.moment.Fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import java.util.List;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 @SuppressLint("ValidFragment")
 public class DiaryCheckFragment extends Fragment {
@@ -25,6 +27,7 @@ public class DiaryCheckFragment extends Fragment {
     private RecyclerView DiaryCheckRv;
     private List<Diary> diaries = new ArrayList<>();
     private View Fragview;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public static DiaryCheckFragment getInstance(String title) {
         DiaryCheckFragment sf = new DiaryCheckFragment();
@@ -42,8 +45,10 @@ public class DiaryCheckFragment extends Fragment {
         View v = inflater.inflate(R.layout.fr_diary_check, null);
         Fragview = v;
         DiaryCheckRv = v.findViewById(R.id.diary_check_rv);
+        swipeRefreshLayout = v.findViewById(R.id.diary_refresh_layout);
 
         showLocalDiary();
+        setRefresh();
         return v;
     }
 
@@ -66,18 +71,17 @@ public class DiaryCheckFragment extends Fragment {
         DiaryCheckRv.setAdapter(adapter);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        showLocalDiary();
+    private void setRefresh(){
+
+        swipeRefreshLayout.setColorSchemeResources(R.color.basic2);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                showLocalDiary();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (Fragview != null && !hidden) {
-            showLocalDiary();
-        }
-    }
 
 }

@@ -7,18 +7,22 @@
     android:padding="10dp"
     android:id="@+id/diary_check_layout">
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/diary_check_rv"
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/diary_refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="wrap_content"
+            android:overScrollMode="never">
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/diary_check_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
 
-        </androidx.recyclerview.widget.RecyclerView>
-    </androidx.core.widget.NestedScrollView>
+            </androidx.recyclerview.widget.RecyclerView>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </RelativeLayout>
