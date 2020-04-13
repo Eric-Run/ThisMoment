@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import com.dgut.moment.Bean.Bill;
 import com.dgut.moment.Bean.BillDetail;
 import com.dgut.moment.R;
 
+import org.litepal.LitePal;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -24,12 +27,17 @@ import java.util.List;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 @SuppressLint("ValidFragment")
 public class BillCheckFragment extends Fragment {
     private String mTitle;
     private TextView billDate;
+    private TextView incomeTv;
+    private TextView outgoTv;
     private RecyclerView billRv;
+    private SwipeRefreshLayout swipeRefreshLayout;
+
 
     public static BillCheckFragment getInstance(String title) {
         BillCheckFragment sf = new BillCheckFragment();
@@ -52,18 +60,26 @@ public class BillCheckFragment extends Fragment {
 
         billRv = v.findViewById(R.id.billRv);
         billDate = v.findViewById(R.id.billDate);
+        incomeTv = v.findViewById(R.id.income);
+        outgoTv = v.findViewById(R.id.outgo);
+        swipeRefreshLayout = v.findViewById(R.id.bill_refresh_layout);
+
 
         initMonthBill();
 
         showDailyBill();
+
+        setRefresh();
 
         return v;
     }
 
     //显示日账单
     private void showDailyBill(){
-        List<Bill> bills = new ArrayList<>();
+        Log.d("Bill_Check",billDate.getText().toString());
+        List<Bill> bills = LitePal.where("billday like ?","%"+billDate.getText().toString()+"%").find(Bill.class);
         List<BillDetail> billDetails = new ArrayList<>();
+        /*
 //        List<List<BillDetail>> bill = new ArrayList<>();
 
 //        bills.add(new Bill("03-04",100,100));
@@ -80,12 +96,26 @@ public class BillCheckFragment extends Fragment {
         bills.add(new Bill("03-05",120,110, billDetails));
         bills.add(new Bill("03-06",130,120, billDetails));
         bills.add(new Bill("03-07",140,130, billDetails));
-        bills.add(new Bill("03-08",140,130, billDetails));
+        bills.add(new Bill("03-08",140,130, billDetails));*/
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        billRv.setLayoutManager(layoutManager);
-        BillCheckAdapter adapter = new BillCheckAdapter(bills);
-        billRv.setAdapter(adapter);
+        float in = 0;
+        float out = 0;
+        if(!bills.isEmpty()) {
+            Log.d("Bill_Check",bills.toString());
+
+            for (Bill bill:bills){
+                in = in + bill.getIncome();
+                out = out + bill.getOutgo();
+            }
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+            billRv.setLayoutManager(layoutManager);
+            BillCheckAdapter adapter = new BillCheckAdapter(bills);
+            billRv.setAdapter(adapter);
+        }
+        //月支出/收入
+        incomeTv.setText(in+"");
+        outgoTv.setText(out+"");
+
     }
 
     //初始化月账单及监听月份选择
@@ -96,7 +126,6 @@ public class BillCheckFragment extends Fragment {
         billDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 showDatePickDlg();
             }
         });
@@ -118,6 +147,7 @@ public class BillCheckFragment extends Fragment {
                     month = i + "";
                 }
                 BillCheckFragment.this.billDate.setText(year + "-" + month);
+                showDailyBill();
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         datePickerDialog.show();
@@ -126,7 +156,6 @@ public class BillCheckFragment extends Fragment {
         if (dp != null) {
             ((ViewGroup)((ViewGroup) dp.getChildAt(0)).getChildAt(0)).getChildAt(2).setVisibility(View.GONE);
         }
-
     }
 
     //返回时间选择器的子控件（用于隐藏子控件）
@@ -144,5 +173,17 @@ public class BillCheckFragment extends Fragment {
             }
         }
         return null;
+    }
+
+    private void setRefresh(){
+
+        swipeRefreshLayout.setColorSchemeResources(R.color.basic2);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                showDailyBill();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 }

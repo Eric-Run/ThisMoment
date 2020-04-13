@@ -10,6 +10,8 @@ import com.dgut.moment.Bean.Bill;
 import com.dgut.moment.R;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -23,6 +25,8 @@ public class BillCheckAdapter extends RecyclerView.Adapter<BillCheckAdapter.View
     private int Size = 10;
 
     public BillCheckAdapter(List<Bill> bills) {
+
+        Collections.sort(bills); //排序
         this.bills = bills;
     }
 

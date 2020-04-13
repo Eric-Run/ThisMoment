@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
         diaries.clear();
         diaries = LitePal.findAll(Diary.class);
         Log.d(TAG,"\n删除mood为scared的diary：\n"+diaries.toString());
+
         //Bill
         BillDetail detail = new BillDetail();
         detail.setBday("2020-04-13");
