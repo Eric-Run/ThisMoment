@@ -71,7 +71,7 @@ public class DiaryCheckAdapter extends RecyclerView.Adapter<DiaryCheckAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
-        if(diaries != null){
+        if(!diaries.isEmpty()){
             diary = diaries.get(position);
             holder.DiaryCheckTitle.setText(diary.getTitle());
             holder.DiaryCheckDate.setText(diary.getDate());

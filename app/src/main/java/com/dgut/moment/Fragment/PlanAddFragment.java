@@ -15,10 +15,12 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dgut.moment.Bean.Plan;
 import com.dgut.moment.PlanActivity;
 import com.dgut.moment.R;
 import com.dgut.moment.Util.CalendarReminderUtils;
 import com.dgut.moment.Util.DatePickerUtil;
+import com.dgut.moment.Util.ToastUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -187,12 +189,13 @@ public class PlanAddFragment extends Fragment {
                         e.printStackTrace();
                     }
                     //保存计划数据
-                    Toast.makeText(getActivity(), "开启了一条计划", Toast.LENGTH_SHORT).show();
-                    String text = "Content:"+content+"\n"
-                            +"PlanTime:"+planTime+"\n"
-                            +"Remind:"+reminder.isChecked()+"\n"
-                            +"PreviousTime:"+previousTime+"\n";
-                    Log.d("Plan_",text);
+                    Plan plan = new Plan();
+                    plan.setContent(content);
+                    plan.setIsfinished(0);
+                    plan.setPlantime(planTime);
+                    plan.save();
+                    Log.d("Plan_",plan.toString());
+                    ToastUtil.ToastCenter(getContext(),"已开启一项计划");
 
                 }
 

@@ -58,7 +58,7 @@ public class BillCheckAdapter extends RecyclerView.Adapter<BillCheckAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        if(bills != null){
+        if(!bills.isEmpty()){
             Bill bill = bills.get(position);
             holder.billDay.setText(bill.getBillday().substring(5));
             holder.day_income.setText(bill.getIncome()+"");

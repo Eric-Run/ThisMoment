@@ -17,15 +17,21 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.dgut.moment.Adapter.PlanItemAdapter;
+import com.dgut.moment.Bean.Plan;
 import com.dgut.moment.Fragment.PlanAddFragment;
+import com.dgut.moment.Util.ConvertUtil;
 import com.dgut.moment.Util.ViewCenterUtils;
 import com.haibin.calendarview.Calendar;
 import com.haibin.calendarview.CalendarView;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
+import org.litepal.LitePal;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PlanActivity extends AppCompatActivity {
@@ -39,6 +45,9 @@ public class PlanActivity extends AppCompatActivity {
     private RecyclerView PlanRv;
     private Button CreateBtn;
     private Button TestBtn;
+
+    List<Plan> plans = new ArrayList<>();
+    String planTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +78,7 @@ public class PlanActivity extends AppCompatActivity {
         TestBtn = findViewById(R.id.plan_test);
 
         initView();  //初始化界面
-
+        showPlanList(); //初始化计划列表
         setListener();  //设置监听器
 
 
@@ -87,20 +96,61 @@ public class PlanActivity extends AppCompatActivity {
         YearTv.setText(year+"");
         LunarTv.setText("今日");
 
-        //初始化计划列表
-        LinearLayoutManager layoutManager = new LinearLayoutManager(PlanActivity.this);
-        PlanRv.setLayoutManager(layoutManager);
-        PlanItemAdapter adapter = new PlanItemAdapter(month); //传入日期数据
+        if(month < 10 && day < 10) {
+            planTime = year + "-0" + month + "-0" + day;
+        }else if(month < 10 && day > 9){
+            planTime = year + "-0" + month + "-" + day;
+        }else if(month > 9 && day < 10){
+            planTime = year + "-" + month + "-0" + day;
+        }else {
+            planTime = year + "-" + month + "-" + day;
+        }
         PlanRv.addItemDecoration(new HorizontalDividerItemDecoration.Builder(PlanActivity.this).build()); //划分割线
-        PlanRv.setAdapter(adapter);
 
-        //模拟标记
+    }
+
+    private void showPlanList(){
+
+        plans.clear();
+        Log.d("Plan_","planTime:"+planTime);
+        plans = LitePal.where("plantime like ?","%"+planTime+"%").find(Plan.class);
+
+        if(!plans.isEmpty()) {
+            PlanRv.setVisibility(View.VISIBLE);
+            Log.d("Plan_","plans:"+plans.toString());
+            //初始化计划列表
+            LinearLayoutManager layoutManager = new LinearLayoutManager(PlanActivity.this);
+            PlanRv.setLayoutManager(layoutManager);
+            PlanItemAdapter adapter = new PlanItemAdapter(plans); //传入日期数据
+            PlanRv.setAdapter(adapter);
+        }else {
+            PlanRv.setVisibility(View.INVISIBLE);
+        }
+
+        List<Plan> plans1 = LitePal.order("plantime desc").find(Plan.class);
+        String time = plans1.get(0).getPlantime().substring(0,10);
+        Log.d("Plan_","time:"+time);
+        int count = 0;
         Map<String, Calendar> map = new HashMap<>();
-        map.put(getSchemeCalendar(year, month, 3, "20").toString(),
-                getSchemeCalendar(year, month, 3, "20"));
-        map.put(getSchemeCalendar(year, month, 15, "5").toString(),
-                getSchemeCalendar(year, month, 15, "5"));
+        for (int i = 0;i <= plans1.size();i++){
+            if(i != plans1.size()) {
+                if (time.equals(plans1.get(i).getPlantime().substring(0, 10))) {
+                    count++;
+                } else {
+                    map.put(getSchemeCalendar(time, count).toString(),
+                            getSchemeCalendar(time, count));
+                    Log.d("Plan_", "count:" + count + "  time:" + time);
+
+                    count = 1;
+                    time = plans1.get(i).getPlantime().substring(0, 10);
+                }
+            }else {
+                map.put(getSchemeCalendar(time, count).toString(),
+                        getSchemeCalendar(time, count));
+            }
+        }
         calendarView.setSchemeDate(map);
+        Log.d("Plan_","plans1:"+plans1.toString());
 
     }
 
@@ -122,16 +172,24 @@ public class PlanActivity extends AppCompatActivity {
                 Log.d("Plan_view",calendar.getDay()+"");
                 int month = calendar.getMonth();
                 int day = calendar.getDay();
+                int year = calendar.getYear();
                 DateTv.setText(calendar.getMonth()+"月"+calendar.getDay()+"日");
                 YearTv.setText(calendar.getYear()+"");
                 LunarTv.setText(calendar.getLunar()+"");
 
+                if(month < 10 && day < 10) {
+                    planTime = year + "-0" + month + "-0" + day;
+                }else if(month < 10 && day > 9){
+                    planTime = year + "-0" + month + "-" + day;
+                }else if(month > 9 && day < 10){
+                    planTime = year + "-" + month + "-0" + day;
+                }else {
+                    planTime = year + "-" + month + "-" + day;
+                }
+
                 //计划列表随日期改标
 //                PlanRv.removeItemDecoration(new HorizontalDividerItemDecoration.Builder(PlanActivity.this).build());
-                LinearLayoutManager layoutManager = new LinearLayoutManager(PlanActivity.this);
-                PlanRv.setLayoutManager(layoutManager);
-                PlanItemAdapter adapter = new PlanItemAdapter(month);
-                PlanRv.setAdapter(adapter);
+                showPlanList();
             }
         });
 
@@ -178,13 +236,19 @@ public class PlanActivity extends AppCompatActivity {
         return pendingIntent;
     }
 
-    private Calendar getSchemeCalendar(int year, int month, int day, String text) {
+    private Calendar getSchemeCalendar(String time, int count) {
         Calendar calendar = new Calendar();
-        calendar.setYear(year);
-        calendar.setMonth(month);
+        calendar.setYear(ConvertUtil.convertToInt(time.substring(0,4),0));
+        calendar.setMonth(ConvertUtil.convertToInt(time.substring(5,7),0));
         calendar.setSchemeColor(0xFFd0505d);
-        calendar.setDay(day);
-        calendar.setScheme(text);
+        calendar.setDay(ConvertUtil.convertToInt(time.substring(8,10),0));
+        calendar.setScheme(count+"");
         return calendar;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        showPlanList();
     }
 }

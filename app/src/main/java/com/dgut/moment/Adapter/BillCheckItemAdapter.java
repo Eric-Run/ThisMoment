@@ -59,7 +59,7 @@ public class BillCheckItemAdapter extends RecyclerView.Adapter<BillCheckItemAdap
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
-        if(billDetails != null){
+        if(!billDetails.isEmpty()){
             BillDetail billDetail = billDetails.get(position);
             Log.d("AAAAA", billDetail.getTag());
             holder.bill_detail_tag.setText(billDetail.getTag());

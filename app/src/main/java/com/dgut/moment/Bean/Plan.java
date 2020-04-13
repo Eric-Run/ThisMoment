@@ -4,52 +4,53 @@ import org.litepal.crud.LitePalSupport;
 
 public class Plan extends LitePalSupport {
 
-    private int Pid;
-    private String Content;  //计划内容
-    private String PlanTime;  //计划时间
-    private int isFinished;  //是否完成，1完成，0未完成
+    private int id;
+    private String content;  //计划内容
+    private String plantime;  //计划时间
+    private int isfinished = 0;  //是否完成，1完成，0未完成
 
     public Plan() {
     }
 
-    public int getPid() {
-        return Pid;
+    public int getId() {
+        return id;
     }
 
-    public void setPid(int pid) {
-        Pid = pid;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getContent() {
-        return Content;
+        return content;
     }
 
     public void setContent(String content) {
-        Content = content;
+        this.content = content;
     }
 
-    public String getPlanTime() {
-        return PlanTime;
+    public String getPlantime() {
+        return plantime;
     }
 
-    public void setPlanTime(String planTime) {
-        PlanTime = planTime;
+    public void setPlantime(String plantime) {
+        this.plantime = plantime;
     }
 
-    public int getIsFinished() {
-        return isFinished;
+    public int getIsfinished() {
+        return isfinished;
     }
 
-    public void setIsFinished(int isFinished) {
-        this.isFinished = isFinished;
+    public void setIsfinished(int isfinished) {
+        this.isfinished = isfinished;
     }
 
     @Override
     public String toString() {
         return "Plan{" +
-                ", Content='" + Content + '\'' +
-                ", PlanTime='" + PlanTime + '\'' +
-                ", isFinished=" + isFinished +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", plantime='" + plantime + '\'' +
+                ", isfinished=" + isfinished +
                 '}';
     }
 }

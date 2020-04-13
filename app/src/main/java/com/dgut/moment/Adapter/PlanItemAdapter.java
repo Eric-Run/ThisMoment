@@ -5,13 +5,18 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dgut.moment.Bean.BillDetail;
+import com.dgut.moment.Bean.Plan;
 import com.dgut.moment.Fragment.PlanModifyFragment;
 import com.dgut.moment.R;
+import com.dgut.moment.View.RoundCheckBox;
+
+import org.litepal.LitePal;
 
 import java.util.List;
 
@@ -24,11 +29,11 @@ import androidx.recyclerview.widget.RecyclerView;
 public class PlanItemAdapter extends RecyclerView.Adapter<PlanItemAdapter.ViewHolder> {
 
     private Context mcontext;
-    public List<BillDetail> billDetails;
+    public List<Plan> plans;
     private int Size = 4;
 
-    public PlanItemAdapter(List<BillDetail> billDetails) {
-        this.billDetails = billDetails;
+    public PlanItemAdapter(List<Plan> plans) {
+        this.plans = plans;
     }
 
     public PlanItemAdapter() {
@@ -42,12 +47,16 @@ public class PlanItemAdapter extends RecyclerView.Adapter<PlanItemAdapter.ViewHo
 
         LinearLayout PlanItem;
         TextView PlanContent;
+        TextView PlanTime;
+        RoundCheckBox PlanCb;
 
         public ViewHolder(View view){
             super(view);
 
             PlanItem = view.findViewById(R.id.plan_item);
             PlanContent = view.findViewById(R.id.plan_item_content);
+            PlanTime = view.findViewById(R.id.plan_item_time);
+            PlanCb = view.findViewById(R.id.plan_item_cb);
         }
     }
     @NonNull
@@ -62,6 +71,23 @@ public class PlanItemAdapter extends RecyclerView.Adapter<PlanItemAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+
+        if(!plans.isEmpty()){
+            Plan plan = plans.get(position);
+            holder.PlanTime.setText(plan.getPlantime());
+            holder.PlanContent.setText(plan.getContent());
+            if(plan.getIsfinished()==1){
+                holder.PlanCb.setChecked(true);
+            }
+            holder.PlanCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Plan plan = LitePal.find(Plan.class,plans.get(position).getId());
+                    plan.setIsfinished(isChecked ? 1 : 0);
+                    plan.save();
+                }
+            });
+        }
 
         holder.PlanItem.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -97,17 +123,19 @@ public class PlanItemAdapter extends RecyclerView.Adapter<PlanItemAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        if(billDetails !=null){
-            return billDetails.size();
+        if(plans !=null){
+            return plans.size();
         }else {
             return Size; //返回数组长度
         }
     }
 
     public void removeData(int position) {
-        //billDetails.remove(position);
+        //删除数据库数据
+        LitePal.delete(Plan.class,plans.get(position).getId());
+        //删除当前list子数据
+        plans.remove(position);
         //删除动画
-        Size--;
         notifyItemRemoved(position);
         notifyDataSetChanged();
     }
