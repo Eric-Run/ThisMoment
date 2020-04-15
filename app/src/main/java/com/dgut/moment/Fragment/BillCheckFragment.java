@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dgut.moment.Adapter.BillCheckAdapter;
@@ -37,6 +38,7 @@ public class BillCheckFragment extends Fragment {
     private TextView outgoTv;
     private RecyclerView billRv;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private ImageView nodataIv;
 
     List<Bill> bills = new ArrayList<>();
 
@@ -65,6 +67,7 @@ public class BillCheckFragment extends Fragment {
         incomeTv = v.findViewById(R.id.income);
         outgoTv = v.findViewById(R.id.outgo);
         swipeRefreshLayout = v.findViewById(R.id.bill_refresh_layout);
+        nodataIv = v.findViewById(R.id.bill_nodata);
 
 
         initMonthBill();
@@ -104,6 +107,8 @@ public class BillCheckFragment extends Fragment {
         float in = 0;
         float out = 0;
         if(!bills.isEmpty()) {
+            nodataIv.setVisibility(View.GONE);
+            billRv.setVisibility(View.VISIBLE);
             Log.d("Bill_Check",bills.toString());
 
             for (Bill bill:bills){
@@ -116,6 +121,9 @@ public class BillCheckFragment extends Fragment {
             billRv.setAdapter(adapter);
         }else {
             //提示无数据
+            nodataIv.setVisibility(View.VISIBLE);
+            billRv.setVisibility(View.GONE);
+
         }
         //月支出/收入
         incomeTv.setText(in+"");

@@ -41,6 +41,7 @@ public class DiaryAddFragment extends Fragment {
 
     private SimpleDateFormat formatter = new SimpleDateFormat ("yyyy-MM-dd");
     private Date curDate =  new Date(System.currentTimeMillis());
+    private OnDiarySaveListener diarySaveListener;
 
     public static DiaryAddFragment getInstance(String title) {
         DiaryAddFragment sf = new DiaryAddFragment();
@@ -214,8 +215,23 @@ public class DiaryAddFragment extends Fragment {
                 addContent.setText("");
                 addDate.setText(formatter.format(curDate));
 
+//                diarySaveListener.diarySaved();
                 ToastUtil.ToastCenter(getContext(),"成功记下一篇日记");
             }
         });
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+//        diarySaveListener = (OnDiarySaveListener) getActivity();
+    }
+
+    public interface OnDiarySaveListener{
+        public void diarySaved();
+    }
+
+    public void setOnDiarySaveListener(OnDiarySaveListener diarySaveListener){
+        this.diarySaveListener = diarySaveListener;
     }
 }

@@ -8,21 +8,30 @@
     android:id="@+id/diary_check_layout">
 
 
+    <ImageView
+        android:id="@+id/diary_nodata"
+        android:layout_centerHorizontal="true"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/diary_nodata"
+        android:layout_marginTop="170dp"
+        />
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/diary_refresh_layout"
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/diary_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/diary_check_rv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:overScrollMode="never">
+            android:layout_height="match_parent"
+            >
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/diary_check_rv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
+        </androidx.recyclerview.widget.RecyclerView>
 
-            </androidx.recyclerview.widget.RecyclerView>
-
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

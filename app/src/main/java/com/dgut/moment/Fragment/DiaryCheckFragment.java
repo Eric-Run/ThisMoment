@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.dgut.moment.Adapter.DiaryCheckAdapter;
 import com.dgut.moment.Bean.Diary;
@@ -22,12 +23,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 @SuppressLint("ValidFragment")
-public class DiaryCheckFragment extends Fragment {
+public class DiaryCheckFragment extends Fragment implements DiaryAddFragment.OnDiarySaveListener {
     private String mTitle;
     private RecyclerView DiaryCheckRv;
     private List<Diary> diaries = new ArrayList<>();
     private View Fragview;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private ImageView nodataIv;
 
     public static DiaryCheckFragment getInstance(String title) {
         DiaryCheckFragment sf = new DiaryCheckFragment();
@@ -46,6 +48,7 @@ public class DiaryCheckFragment extends Fragment {
         Fragview = v;
         DiaryCheckRv = v.findViewById(R.id.diary_check_rv);
         swipeRefreshLayout = v.findViewById(R.id.diary_refresh_layout);
+        nodataIv = v.findViewById(R.id.diary_nodata);
 
         showLocalDiary();
         setRefresh();
@@ -65,6 +68,8 @@ public class DiaryCheckFragment extends Fragment {
         diaries.clear();
         diaries = LitePal.findAll(Diary.class);
         if(!diaries.isEmpty()) {
+            nodataIv.setVisibility(View.GONE);
+            DiaryCheckRv.setVisibility(View.VISIBLE);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
             DiaryCheckRv.setLayoutManager(layoutManager);
             DiaryCheckAdapter adapter = new DiaryCheckAdapter(diaries);
@@ -72,6 +77,8 @@ public class DiaryCheckFragment extends Fragment {
             DiaryCheckRv.setAdapter(adapter);
         }else {
             //提示无数据
+            DiaryCheckRv.setVisibility(View.GONE);
+            nodataIv.setVisibility(View.VISIBLE);
         }
     }
 
@@ -88,4 +95,8 @@ public class DiaryCheckFragment extends Fragment {
     }
 
 
+    @Override
+    public void diarySaved() {
+        showLocalDiary();
+    }
 }
