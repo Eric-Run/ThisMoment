@@ -1,6 +1,7 @@
 package com.dgut.moment.Adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -105,7 +106,9 @@ public class PlanItemAdapter extends RecyclerView.Adapter<PlanItemAdapter.ViewHo
                             Toast.makeText(mcontext,holder.PlanContent.getText()+"已被删除",Toast.LENGTH_SHORT).show();
                         }else if(item.getItemId()==R.id.plan_change){
                             PlanModifyFragment planDetailFragment = new PlanModifyFragment();
-
+                            Bundle bundle = new Bundle();//声明一个Bundle对象
+                            bundle.putSerializable("plan",plans.get(position));   //向下传递单词信息
+                            planDetailFragment.setArguments(bundle);
                             FragmentTransaction transaction = ((FragmentActivity)mcontext).getSupportFragmentManager().beginTransaction();
                             transaction.addToBackStack(null).replace(R.id.planLayout,planDetailFragment);
                             transaction.setCustomAnimations(R.anim.anim_in,R.anim.anim_out,R.anim.anim_in,R.anim.anim_out)

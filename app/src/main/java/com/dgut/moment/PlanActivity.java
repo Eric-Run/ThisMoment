@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.dgut.moment.Adapter.PlanItemAdapter;
 import com.dgut.moment.Bean.Plan;
 import com.dgut.moment.Fragment.PlanAddFragment;
+import com.dgut.moment.Fragment.PlanModifyFragment;
 import com.dgut.moment.Util.ConvertUtil;
 import com.dgut.moment.Util.ViewCenterUtils;
 import com.haibin.calendarview.Calendar;
@@ -34,7 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PlanActivity extends AppCompatActivity {
+public class PlanActivity extends AppCompatActivity implements PlanAddFragment.PlanAddListener, PlanModifyFragment.PlanModifyListener {
 
     private static final String TAG="PlanActivity";
     private TextView test;
@@ -128,29 +129,42 @@ public class PlanActivity extends AppCompatActivity {
         }
 
         List<Plan> plans1 = LitePal.order("plantime desc").find(Plan.class);
-        String time = plans1.get(0).getPlantime().substring(0,10);
-        Log.d("Plan_","time:"+time);
-        int count = 0;
-        Map<String, Calendar> map = new HashMap<>();
-        for (int i = 0;i <= plans1.size();i++){
-            if(i != plans1.size()) {
-                if (time.equals(plans1.get(i).getPlantime().substring(0, 10))) {
-                    count++;
-                } else {
-                    map.put(getSchemeCalendar(time, count).toString(),
-                            getSchemeCalendar(time, count));
-                    Log.d("Plan_", "count:" + count + "  time:" + time);
+        if(!plans1.isEmpty()) {
+            String time = plans1.get(0).getPlantime().substring(0, 10);
+            Log.d("Plan_", "time:" + time);
+            int count = 0;
+            Map<String, Calendar> map = new HashMap<>();
+            for (int i = 0; i <= plans1.size(); i++) {
+                if (i != plans1.size()) {
 
-                    count = 1;
-                    time = plans1.get(i).getPlantime().substring(0, 10);
+                    if (time.equals(plans1.get(i).getPlantime().substring(0, 10))) {
+                        if(plans1.get(i).getIsfinished() == 0) {
+                            count++;
+                        }
+                    } else {
+                        if(count != 0) {
+                            map.put(getSchemeCalendar(time, count).toString(),
+                                    getSchemeCalendar(time, count));
+                        }
+                        Log.d("Plan_", "count:" + count + "  time:" + time);
+
+                        time = plans1.get(i).getPlantime().substring(0, 10);
+                        if(plans1.get(i).getIsfinished() == 0) {
+                            count = 1;
+                        }else {
+                            count = 0;
+                        }
+                    }
+                } else {
+                    if(count != 0) {
+                        map.put(getSchemeCalendar(time, count).toString(),
+                                getSchemeCalendar(time, count));
+                    }
                 }
-            }else {
-                map.put(getSchemeCalendar(time, count).toString(),
-                        getSchemeCalendar(time, count));
             }
+            calendarView.setSchemeDate(map);
+            Log.d("Plan_", "plans1:" + plans1.toString());
         }
-        calendarView.setSchemeDate(map);
-        Log.d("Plan_","plans1:"+plans1.toString());
 
     }
 
@@ -249,6 +263,26 @@ public class PlanActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        showPlanList();
+        Log.d("Plan_","Plan->onResume");
+        showPlanList();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("Plan_","Plan->onPause");
+
+    }
+
+    @Override
+    public void planisAdd() {
+        Log.d("Plan_","Plan->planisAdd");
+        showPlanList();
+    }
+
+    @Override
+    public void planisModified() {
+        Log.d("Plan_","Plan->planisModified");
+        showPlanList();
     }
 }

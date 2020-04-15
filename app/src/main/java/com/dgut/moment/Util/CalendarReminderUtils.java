@@ -105,7 +105,7 @@ public class CalendarReminderUtils {
      * @param previousTime  提醒时间
      * @return
      */
-    public static int addCalendarEvent(Context context, String title, long planTime, int previousTime) {
+    public static int addCalendarEvent(Context context, String title,String content, long planTime, int previousTime) {
         if (context == null) {
             return -1;
         }
@@ -125,7 +125,7 @@ public class CalendarReminderUtils {
         long end = mCalendar.getTime().getTime();
         ContentValues event = new ContentValues();
         event.put("title", title);
-//        event.put("description", description); //事件描述
+        event.put("description", content); //事件描述
         event.put("calendar_id", calId); //插入账户的id
         event.put(CalendarContract.Events.DTSTART, start);
         event.put(CalendarContract.Events.DTEND, end); //终止时间
@@ -163,7 +163,7 @@ public class CalendarReminderUtils {
             if (eventCursor.getCount() > 0) {
                 //遍历所有事件，找到title跟需要查询的title一样的项
                 for (eventCursor.moveToFirst(); !eventCursor.isAfterLast(); eventCursor.moveToNext()) {
-                    String eventTitle = eventCursor.getString(eventCursor.getColumnIndex("title"));
+                    String eventTitle = eventCursor.getString(eventCursor.getColumnIndex("description"));
                     if (!TextUtils.isEmpty(title) && title.equals(eventTitle)) {
                         int id = eventCursor.getInt(eventCursor.getColumnIndex(CalendarContract.Calendars._ID));//取得id
                         Uri deleteUri = ContentUris.withAppendedId(Uri.parse(CALENDER_EVENT_URL), id);

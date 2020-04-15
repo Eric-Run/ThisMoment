@@ -2,11 +2,17 @@ package com.dgut.moment;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.dgut.moment.Bean.Bill;
 import com.dgut.moment.Bean.BillDetail;
@@ -19,6 +25,8 @@ import org.litepal.LitePal;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    private int requestcode = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +127,29 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG,"\n删除id为1的Bill：\n"+bills.toString());
 */
 
-
+        if(Build.VERSION.SDK_INT >= 23){
+            int checkWriteStoragePermission = ContextCompat.checkSelfPermission(MainActivity.this,
+                    Manifest.permission.READ_CALENDAR);
+            int checkWriteStoragePermission1 = ContextCompat.checkSelfPermission(MainActivity.this,
+                    Manifest.permission.WRITE_CALENDAR);
+            //如果没有被授予
+            if(checkWriteStoragePermission != PackageManager.PERMISSION_GRANTED){
+                //请求权限,此处可以同时申请多个权限
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_CALENDAR},  requestcode);
+                return;
+            }else{
+                // do something....
+            }
+            if(checkWriteStoragePermission1 != PackageManager.PERMISSION_GRANTED){
+                //请求权限,此处可以同时申请多个权限
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_CALENDAR},  requestcode);
+                return;
+            }else{
+                // do something....
+            }
+        }else {
+            // do something....
+        }
 
 
 
@@ -162,5 +192,19 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("x", viewCenter[0]);
         intent.putExtra("y", viewCenter[1]);
         startActivity(intent);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, final String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case 123:
+                if(grantResults.length > 0 &&
+                        grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    // do something....
+                }else{
+                    Toast.makeText(MainActivity.this, "获取权限失败!", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
     }
 }

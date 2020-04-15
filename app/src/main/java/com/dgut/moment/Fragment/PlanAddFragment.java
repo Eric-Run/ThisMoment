@@ -1,6 +1,8 @@
 package com.dgut.moment.Fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,12 +24,16 @@ import com.dgut.moment.Util.CalendarReminderUtils;
 import com.dgut.moment.Util.DatePickerUtil;
 import com.dgut.moment.Util.ToastUtil;
 
+import org.litepal.LitePal;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 @SuppressLint("ValidFragment")
 public class PlanAddFragment extends Fragment {
@@ -41,6 +47,8 @@ public class PlanAddFragment extends Fragment {
     private EditText contentEv;
     private TextView remindTimeTv;
     private int previousTime;
+
+    private PlanAddListener planAddListener;
 
     public static PlanAddFragment getInstance(String title) {
         PlanAddFragment sf = new PlanAddFragment();
@@ -170,33 +178,57 @@ public class PlanAddFragment extends Fragment {
                 if("".equals(content)|content == null) {
 
                     Toast.makeText(getActivity(), "计划内容不能为空", Toast.LENGTH_SHORT).show();
-                }else if ("请选择".equals(planTime)) {
-                    Toast.makeText(getActivity(), "请选择计划时间", Toast.LENGTH_SHORT).show();
                 }else {
-                    SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                    try {
-                        Date planDate = sdf.parse(planTime);
+                    if ("请选择".equals(planTime)) {
+                        Toast.makeText(getActivity(), "请选择计划时间", Toast.LENGTH_SHORT).show();
+                    }else {
+                        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                        try {
+                            Date planDate = sdf.parse(planTime);
 
-                        if(reminder.isChecked()){
-                            if("请选择".equals(remindeTime)){
-                                Toast.makeText(getActivity(), "请设置有效提醒时间", Toast.LENGTH_SHORT).show();
+                            if(reminder.isChecked()){
+                                List<Plan> plans = LitePal.where("plantime = ?",planTime).find(Plan.class);
+                                if("请选择".equals(remindeTime)){
+                                    Toast.makeText(getActivity(), "请设置有效提醒时间", Toast.LENGTH_SHORT).show();
+                                }else if(!plans.isEmpty()) {
+                                    Log.d("Plan_",plans.toString());
+                                    ToastUtil.ToastCenter(getContext(),'('+planTime+')'+"\n该时间点已有提醒事项咯");
+                                }else {
+                                     //添加系统日历事件
+                                    CalendarReminderUtils.addCalendarEvent(getContext(), content, planTime, planDate.getTime(), previousTime);
+                                    //保存计划数据
+                                    Plan plan = new Plan();
+                                    plan.setContent(content);
+                                    plan.setIsremind(reminder.isChecked()? 1:0);
+                                    plan.setIsfinished(0);
+                                    plan.setPlantime(planTime);
+                                    plan.setPreviousTime(previousTime);
+                                    plan.save();
+                                    Log.d("Plan_",plan.toString());
+                                    ToastUtil.ToastCenter(getContext(),"已开启一项计划");
+                                    planAddListener.planisAdd();
+                                    getFragmentManager().popBackStack();
+                                }
                             }else {
-                                //添加系统日历事件
-                                CalendarReminderUtils.addCalendarEvent(getContext(), content, planDate.getTime(), previousTime);
+                                //保存计划数据
+                                Plan plan = new Plan();
+                                plan.setContent(content);
+                                plan.setIsremind(reminder.isChecked()? 1:0);
+                                plan.setIsfinished(0);
+                                plan.setPlantime(planTime);
+                                plan.setPreviousTime(previousTime);
+                                plan.save();
+                                Log.d("Plan_",plan.toString());
+                                ToastUtil.ToastCenter(getContext(),"已开启一项计划");
+                                planAddListener.planisAdd();
+                                getFragmentManager().popBackStack();
                             }
+                        } catch (ParseException e) {
+                            e.printStackTrace();
                         }
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    //保存计划数据
-                    Plan plan = new Plan();
-                    plan.setContent(content);
-                    plan.setIsfinished(0);
-                    plan.setPlantime(planTime);
-                    plan.save();
-                    Log.d("Plan_",plan.toString());
-                    ToastUtil.ToastCenter(getContext(),"已开启一项计划");
 
+
+                    }
                 }
 
             }
@@ -204,4 +236,38 @@ public class PlanAddFragment extends Fragment {
 
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Log.d("Plan_","Plan->Add->onAttach");
+        planAddListener = (PlanAddListener) getActivity();
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d("Plan_","Plan->Add->onAttach");
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("Plan_","Plan->Add->onDestroy");
+
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Log.d("Plan_","Plan->Add->onDetach");
+        planAddListener = null;
+
+    }
+
+    public interface PlanAddListener{
+
+        public void planisAdd();
+    }
 }
