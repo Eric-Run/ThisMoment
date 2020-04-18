@@ -44,6 +44,7 @@ public class PlanAddFragment extends Fragment {
     private LinearLayout btnLayout;
     private TextView plantimeTv;
     private Button planBtn;
+    private Button planBackBtn;
     private EditText contentEv;
     private TextView remindTimeTv;
     private int previousTime;
@@ -73,6 +74,7 @@ public class PlanAddFragment extends Fragment {
         remindTimeTv = v.findViewById(R.id.plan_remind_time);
         planBtn = v.findViewById(R.id.plan_btn);
         contentEv = v.findViewById(R.id.plan_content);
+        planBackBtn = v.findViewById(R.id.plan_backbtn);
 
         previousTime = 0;
 
@@ -97,7 +99,6 @@ public class PlanAddFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 new DatePickerUtil().showTimePickView(plantimeTv,getContext());
-                Toast.makeText(getActivity(),"Pick Time",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -105,7 +106,6 @@ public class PlanAddFragment extends Fragment {
         reminderLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(),"Pick Remind Time",Toast.LENGTH_SHORT).show();
                 PopupMenu popupMenu = new PopupMenu(getContext(),v);
                 popupMenu.getMenuInflater().inflate(R.menu.plan_remind_menu,popupMenu.getMenu());
 
@@ -231,6 +231,13 @@ public class PlanAddFragment extends Fragment {
                     }
                 }
 
+            }
+        });
+
+        planBackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().popBackStack();
             }
         });
 

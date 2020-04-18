@@ -1,7 +1,10 @@
 package com.dgut.moment.Adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -90,10 +93,23 @@ public class PlanItemAdapter extends RecyclerView.Adapter<PlanItemAdapter.ViewHo
             });
         }
 
+        holder.PlanItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PlanModifyFragment planDetailFragment = new PlanModifyFragment();
+                Bundle bundle = new Bundle();//声明一个Bundle对象
+                bundle.putSerializable("plan",plans.get(position));   //向下传递单词信息
+                planDetailFragment.setArguments(bundle);
+                FragmentTransaction transaction = ((FragmentActivity)mcontext).getSupportFragmentManager().beginTransaction();
+                transaction.addToBackStack(null).replace(R.id.planLayout,planDetailFragment);
+                transaction.setCustomAnimations(R.anim.anim_in,R.anim.anim_out,R.anim.anim_in,R.anim.anim_out)
+                        .commit();
+            }
+        });
         holder.PlanItem.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(mcontext,v);
+                /*PopupMenu popupMenu = new PopupMenu(mcontext,v);
                 popupMenu.getMenuInflater().inflate(R.menu.plan_item_menu,popupMenu.getMenu());
 
                 //弹出式菜单的菜单项点击事件
@@ -117,7 +133,26 @@ public class PlanItemAdapter extends RecyclerView.Adapter<PlanItemAdapter.ViewHo
                         return false;
                     }
                 });
-                popupMenu.show();
+                popupMenu.show();*/
+                final String confirmWord = holder.PlanContent.getText().toString();
+
+                AlertDialog.Builder builder=new AlertDialog.Builder(mcontext);
+                builder.setMessage("确定将\""+confirmWord+"\"移除吗？");
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        removeData(position);
+                        Toast.makeText(mcontext,"《"+confirmWord+"》已被删除",Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.d("Plan_","取消删除:"+confirmWord);
+                    }
+                });
+                AlertDialog alert=builder.create();
+                alert.show();
                 return false;
             }
         });

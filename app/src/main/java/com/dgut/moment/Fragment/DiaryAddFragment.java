@@ -202,21 +202,27 @@ public class DiaryAddFragment extends Fragment {
             public void onClick(View v) {
 
                 //添加数据库数据
-                Diary diary = new Diary();
-                diary.setTitle(addTitle.getText().toString());
-                diary.setContent(addContent.getText().toString());
-                diary.setDate(addDate.getText().toString());
-                diary.setMood(addMood.getText().toString());
-                diary.setWeather(addWeather.getText().toString());
-                Log.d("Diary_Add",diary.toString());
-                diary.save();
+                if("".equals(addTitle.getText().toString())){
+                    ToastUtil.ToastCenter(getContext(),"标题不能为空");
+                }else if("".equals(addContent.getText().toString())){
+                    ToastUtil.ToastCenter(getContext(),"内容不能为空");
+                }else {
+                    Diary diary = new Diary();
+                    diary.setTitle(addTitle.getText().toString());
+                    diary.setContent(addContent.getText().toString());
+                    diary.setDate(addDate.getText().toString());
+                    diary.setMood(addMood.getText().toString());
+                    diary.setWeather(addWeather.getText().toString());
+                    Log.d("Diary_Add", diary.toString());
+                    diary.save();
 
-                addTitle.setText("");
-                addContent.setText("");
-                addDate.setText(formatter.format(curDate));
+                    addTitle.setText("");
+                    addContent.setText("");
+                    addDate.setText(formatter.format(curDate));
 
 //                diarySaveListener.diarySaved();
-                ToastUtil.ToastCenter(getContext(),"成功记下一篇日记");
+                    ToastUtil.ToastCenter(getContext(), "成功记下一篇日记");
+                }
             }
         });
     }

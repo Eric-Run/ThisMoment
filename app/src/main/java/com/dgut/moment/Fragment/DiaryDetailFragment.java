@@ -162,26 +162,32 @@ public class DiaryDetailFragment extends Fragment {
                         +"Mood:"+MoodTv.getText().toString()+"\n"
                         +"Weather"+WeatherTv.getText().toString()+"\n"
                         +"Date:"+DateTv.getText().toString();*/
-                Diary diary1 = LitePal.find(Diary.class,diary.getId());
-                diary1.setTitle(TitleEt.getText().toString());
-                diary1.setContent(ContentEt.getText().toString());
-                diary1.setDate(DateTv.getText().toString());
-                diary1.setMood(MoodTv.getText().toString());
-                diary1.setWeather(WeatherTv.getText().toString());
-                Log.d("Diary_Detail",diary1.toString());
-                diary1.save();
-                //设置控件不可点击
-                setAble(false);
-                TitleEt.setFocusable(false);
-                TitleEt.setFocusableInTouchMode(false);
-                TitleEt.clearFocus();
-                ContentEt.clearFocus();
-                //设置隐藏、显示按钮
-                ModifyLayout.setVisibility(View.VISIBLE);
-                SelectLayout.setVisibility(View.GONE);
+                if("".equals(TitleEt.getText().toString())){
+                    ToastUtil.ToastCenter(getContext(),"标题不能为空");
+                }else if("".equals(ContentEt.getText().toString())){
+                    ToastUtil.ToastCenter(getContext(),"内容不能为空");
+                }else {
+                    Diary diary1 = LitePal.find(Diary.class, diary.getId());
+                    diary1.setTitle(TitleEt.getText().toString());
+                    diary1.setContent(ContentEt.getText().toString());
+                    diary1.setDate(DateTv.getText().toString());
+                    diary1.setMood(MoodTv.getText().toString());
+                    diary1.setWeather(WeatherTv.getText().toString());
+                    Log.d("Diary_Detail", diary1.toString());
+                    diary1.save();
+                    //设置控件不可点击
+                    setAble(false);
+                    TitleEt.setFocusable(false);
+                    TitleEt.setFocusableInTouchMode(false);
+                    TitleEt.clearFocus();
+                    ContentEt.clearFocus();
+                    //设置隐藏、显示按钮
+                    ModifyLayout.setVisibility(View.VISIBLE);
+                    SelectLayout.setVisibility(View.GONE);
 
-                ToastUtil.ToastCenter(getContext(),"修改日记成功！");
-                Log.d("Diary_Detail","Modification finished");
+                    ToastUtil.ToastCenter(getContext(), "修改日记成功！");
+                    Log.d("Diary_Detail", "Modification finished");
+                }
 
             }
         });

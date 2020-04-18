@@ -1,7 +1,9 @@
 package com.dgut.moment.Fragment;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +30,7 @@ import org.litepal.LitePal;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -45,6 +48,7 @@ public class PlanModifyFragment extends Fragment {
     private TextView TitleTv;
     private TextView plantimeTv;
     private Button planBtn;
+    private Button planBackBtn;
     private EditText contentEv;
     private TextView remindTimeTv;
     private int previousTime;
@@ -77,10 +81,11 @@ public class PlanModifyFragment extends Fragment {
         remindTimeTv = v.findViewById(R.id.plan_remind_time);
         planBtn = v.findViewById(R.id.plan_btn);
         contentEv = v.findViewById(R.id.plan_content);
+        planBackBtn = v.findViewById(R.id.plan_backbtn);
 
         // 实例化一个Bundle
         Bundle bundle=getArguments();
-        //获取里面的Diary里面的数据
+        //获取数据
         plan = (Plan) bundle.getSerializable("plan") ;
 
 
@@ -105,21 +110,27 @@ public class PlanModifyFragment extends Fragment {
             switch (previousTime){
                 case 0:
                     remindTimeTv.setText("发生时");
+                    pt = 0;
                     break;
                 case 5:
                     remindTimeTv.setText("提前5分钟");
+                    pt = 5;
                     break;
                 case 10:
                     remindTimeTv.setText("提前10分钟");
+                    pt = 10;
                     break;
                 case 30:
                     remindTimeTv.setText("提前30分钟");
+                    pt = 30;
                     break;
                 case 60:
                     remindTimeTv.setText("提前1小时");
+                    pt = 60;
                     break;
                 case 1 * 24 * 60:
                     remindTimeTv.setText("提前一天");
+                    pt = 1 * 24 * 60;
                     break;
             }
         }
@@ -143,8 +154,6 @@ public class PlanModifyFragment extends Fragment {
             public void onClick(View v) {
                 new DatePickerUtil().showTimePickView(plantimeTv,getContext());
 
-
-                Toast.makeText(getActivity(),"Pick Time",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -152,7 +161,6 @@ public class PlanModifyFragment extends Fragment {
         reminderLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(),"Pick Remind Time",Toast.LENGTH_SHORT).show();
                 PopupMenu popupMenu = new PopupMenu(getContext(),v);
                 popupMenu.getMenuInflater().inflate(R.menu.plan_remind_menu,popupMenu.getMenu());
 
@@ -217,12 +225,7 @@ public class PlanModifyFragment extends Fragment {
                 String planTime = plantimeTv.getText().toString();
                 String remindeTime = remindTimeTv.getText().toString();
                 String content = contentEv.getText().toString();
-                /*
-                1、判断计划内容是否为空（->否，返回提醒）
-                2、判断计划时间是否已选（->否，返回提醒）
-                3、判断是否有设置提醒（->是，判断提醒时间是否已选->否，返回提醒）
-                4、保存计划数据
-                 */
+
                 if("".equals(content)|content == null) {
 
                     Toast.makeText(getActivity(), "计划内容不能为空", Toast.LENGTH_SHORT).show();
@@ -238,17 +241,17 @@ public class PlanModifyFragment extends Fragment {
                             if(reminder.isChecked()){
                                 if("请选择".equals(remindeTime)){
                                     Toast.makeText(getActivity(), "请设置有效提醒时间", Toast.LENGTH_SHORT).show();
-                                }else if(!plans.isEmpty()){
-                                    ToastUtil.ToastCenter(getContext(),'('+planTime+')'+"\n该时间点已有提醒事项咯");
+                                }else  if(pt != previousTime){
+                                    CalendarReminderUtils.deleteCalendarEvent(getContext(),planTime);
+                                    CalendarReminderUtils.addCalendarEvent(getContext(), content, planTime, planDate.getTime(), pt);
+                                    savePlan();
+                                    planModifyListener.planisModified();
+                                    getFragmentManager().popBackStack();
                                 }else {
                                     //修改系统日历事件
-                                    if(pt != previousTime){
-                                        CalendarReminderUtils.deleteCalendarEvent(getContext(),planTime);
-                                        CalendarReminderUtils.addCalendarEvent(getContext(), content, planTime, planDate.getTime(), pt);
-                                        savePlan();
-                                        planModifyListener.planisModified();
-                                        getFragmentManager().popBackStack();
-                                    }
+                                    savePlan();
+                                    planModifyListener.planisModified();
+                                    getFragmentManager().popBackStack();
                                 }
                             } else {
                                 CalendarReminderUtils.deleteCalendarEvent(getContext(),planTime);
@@ -260,12 +263,9 @@ public class PlanModifyFragment extends Fragment {
                             if(reminder.isChecked()){
                                 if("请选择".equals(remindeTime)){
                                     Toast.makeText(getActivity(), "请设置有效提醒时间", Toast.LENGTH_SHORT).show();
-                                }else if(!plans.isEmpty()) {
-                                    Log.d("Plan_",plans.toString());
-                                    ToastUtil.ToastCenter(getContext(),'('+planTime+')'+"该时间点已有提醒事项咯");
                                 }else {
                                     //添加系统日历事件
-                                    CalendarReminderUtils.addCalendarEvent(getContext(), content, planTime, planDate.getTime(), previousTime);
+                                    CalendarReminderUtils.addCalendarEvent(getContext(), content, planTime, planDate.getTime(), pt);
                                     savePlan();
                                     planModifyListener.planisModified();
                                     getFragmentManager().popBackStack();
@@ -286,6 +286,47 @@ public class PlanModifyFragment extends Fragment {
 
                 }
 
+            }
+        });
+
+        planBackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<Boolean> check = new ArrayList<>();
+                int Rischeck = reminder.isChecked()?1:0;
+                check.add(plan.getContent().equals(contentEv.getText().toString()));
+                check.add(plan.getIsremind()==Rischeck);
+                check.add(plan.getPreviousTime() == pt);
+                check.add(plan.getPlantime().equals(plantimeTv.getText().toString()));
+                Boolean flag = true;
+                for (boolean b:check){
+                    flag = b;
+                    Log.d("Plan_Modify",b+"");
+                    if(!b){
+                        Log.d("Plan_Modify",plan.getPreviousTime()+"");
+                        Log.d("Plan_Modify",pt+"");
+                        AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
+                        builder.setMessage("检测到计划有所改动，需要保存这些改动吗？");
+                        builder.setPositiveButton("保存", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                planBtn.performClick();
+                            }
+                        });
+                        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                getFragmentManager().popBackStack();
+                            }
+                        });
+                        AlertDialog alert=builder.create();
+                        alert.show();
+                        break;
+                    }
+                }
+                if(flag){
+                    getFragmentManager().popBackStack();
+                }
             }
         });
     }

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dgut.moment.Adapter.PlanItemAdapter;
@@ -46,6 +47,7 @@ public class PlanActivity extends AppCompatActivity implements PlanAddFragment.P
     private RecyclerView PlanRv;
     private Button CreateBtn;
     private Button TestBtn;
+    private ImageView nodataIv;
 
     List<Plan> plans = new ArrayList<>();
     String planTime;
@@ -75,6 +77,7 @@ public class PlanActivity extends AppCompatActivity implements PlanAddFragment.P
         calendarView = findViewById(R.id.plan_calendar);
         PlanRv = findViewById(R.id.plan_rv);
         CreateBtn = findViewById(R.id.plan_create);
+        nodataIv = findViewById(R.id.plan_nodata);
 
         TestBtn = findViewById(R.id.plan_test);
 
@@ -118,6 +121,7 @@ public class PlanActivity extends AppCompatActivity implements PlanAddFragment.P
 
         if(!plans.isEmpty()) {
             PlanRv.setVisibility(View.VISIBLE);
+            nodataIv.setVisibility(View.GONE);
             Log.d("Plan_","plans:"+plans.toString());
             //初始化计划列表
             LinearLayoutManager layoutManager = new LinearLayoutManager(PlanActivity.this);
@@ -125,7 +129,8 @@ public class PlanActivity extends AppCompatActivity implements PlanAddFragment.P
             PlanItemAdapter adapter = new PlanItemAdapter(plans); //传入日期数据
             PlanRv.setAdapter(adapter);
         }else {
-            PlanRv.setVisibility(View.INVISIBLE);
+            nodataIv.setVisibility(View.VISIBLE);
+            PlanRv.setVisibility(View.GONE);
         }
 
         List<Plan> plans1 = LitePal.order("plantime desc").find(Plan.class);
