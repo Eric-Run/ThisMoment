@@ -1,23 +1,30 @@
 package com.dgut.moment;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.dgut.moment.Bean.Bill;
 import com.dgut.moment.Bean.BillDetail;
 import com.dgut.moment.Bean.Diary;
+import com.dgut.moment.Bean.User;
 import com.dgut.moment.Util.ConvertUtil;
+import com.dgut.moment.Util.ToastUtil;
 import com.dgut.moment.Util.ViewCenterUtils;
 
 import org.litepal.LitePal;
@@ -33,6 +40,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //初始用户
+        List<User> users = LitePal.findAll(User.class);
+        if(users.isEmpty()){
+            User user = new User();
+            user.setBillcount(0);
+            user.setDiarycount(0);
+            user.setPlancount(0);
+            user.setDpassword("-1");
+            user.setPassword("123");
+            user.setUsername("用户007");
+
+            user.save();
+        }else {
+            Log.d("USER",users.toString());
+        }
         //测试数据库
  /*       String TAG = "TESTDB";
         //Dairy
@@ -157,13 +179,55 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void diaryBtn(View view) {
-        CardView cardView = findViewById(R.id.diaryBtn);
-        int[] viewCenter = ViewCenterUtils.getViewCenter(cardView);
-        Intent intent=new Intent(this,DiaryActivity.class);
-        intent.putExtra("x", viewCenter[0]);
-        intent.putExtra("y", viewCenter[1]);
-        startActivity(intent);
-        //overridePendingTransition(R.anim.anim_in,R.anim.anim_in);
+        final User user = LitePal.find(User.class,1);
+        if("-1".equals(user.getDpassword())) {
+            ToastUtil.ToastCenter(this,"您还未设置密码，请前往\"我的\"界面进行设置");
+            CardView cardView = findViewById(R.id.diaryBtn);
+            int[] viewCenter = ViewCenterUtils.getViewCenter(cardView);
+            Intent intent = new Intent(this, DiaryActivity.class);
+            intent.putExtra("x", viewCenter[0]);
+            intent.putExtra("y", viewCenter[1]);
+            startActivity(intent);
+            //overridePendingTransition(R.anim.anim_in,R.anim.anim_in);
+        }else if("0".equals(user.getDpassword())){
+            CardView cardView = findViewById(R.id.diaryBtn);
+            int[] viewCenter = ViewCenterUtils.getViewCenter(cardView);
+            Intent intent = new Intent(this, DiaryActivity.class);
+            intent.putExtra("x", viewCenter[0]);
+            intent.putExtra("y", viewCenter[1]);
+            startActivity(intent);
+        }else{
+
+            final View dialogView = LayoutInflater.from(MainActivity.this)
+                    .inflate(R.layout.dialog_diary_pw,null);
+            AlertDialog.Builder inputDialog =
+                    new AlertDialog.Builder(MainActivity.this);
+            inputDialog.setTitle("请输入日记本密码：").setView(dialogView);
+            inputDialog.setPositiveButton("确定",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            EditText editText = dialogView.findViewById(R.id.dialog_dpw);
+                            if(user.getDpassword().equals(editText.getText().toString())){
+                                CardView cardView = findViewById(R.id.diaryBtn);
+                                int[] viewCenter = ViewCenterUtils.getViewCenter(cardView);
+                                Intent intent = new Intent(MainActivity.this, DiaryActivity.class);
+                                intent.putExtra("x", viewCenter[0]);
+                                intent.putExtra("y", viewCenter[1]);
+                                startActivity(intent);
+                            }else {
+                                ToastUtil.ToastCenter(MainActivity.this,"密码输入错误，请重试！");
+                            }
+                        }
+                    });
+            inputDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            inputDialog.show();
+        }
 
     }
 

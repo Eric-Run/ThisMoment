@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.dgut.moment.Bean.BillDetail;
 import com.dgut.moment.Bean.Plan;
+import com.dgut.moment.Bean.User;
 import com.dgut.moment.Fragment.PlanModifyFragment;
 import com.dgut.moment.R;
 import com.dgut.moment.View.RoundCheckBox;
@@ -171,6 +172,11 @@ public class PlanItemAdapter extends RecyclerView.Adapter<PlanItemAdapter.ViewHo
     public void removeData(int position) {
         //删除数据库数据
         LitePal.delete(Plan.class,plans.get(position).getId());
+
+        User user = LitePal.find(User.class,1);
+        user.setPlancount(user.getPlancount()-1);
+        user.save();
+        Log.d("Plan_","用户："+user.getUsername()+"减少了一条计划");
         //删除当前list子数据
         plans.remove(position);
         //删除动画

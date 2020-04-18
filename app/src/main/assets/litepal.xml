@@ -9,5 +9,6 @@
         <mapping class="com.dgut.moment.Bean.BillDetail" />
         <mapping class="com.dgut.moment.Bean.Diary" />
         <mapping class="com.dgut.moment.Bean.Plan" />
+        <mapping class="com.dgut.moment.Bean.User" />
     </list>
 </litepal>

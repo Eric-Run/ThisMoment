@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dgut.moment.Bean.Plan;
+import com.dgut.moment.Bean.User;
 import com.dgut.moment.PlanActivity;
 import com.dgut.moment.R;
 import com.dgut.moment.Util.CalendarReminderUtils;
@@ -197,28 +198,14 @@ public class PlanAddFragment extends Fragment {
                                      //添加系统日历事件
                                     CalendarReminderUtils.addCalendarEvent(getContext(), content, planTime, planDate.getTime(), previousTime);
                                     //保存计划数据
-                                    Plan plan = new Plan();
-                                    plan.setContent(content);
-                                    plan.setIsremind(reminder.isChecked()? 1:0);
-                                    plan.setIsfinished(0);
-                                    plan.setPlantime(planTime);
-                                    plan.setPreviousTime(previousTime);
-                                    plan.save();
-                                    Log.d("Plan_",plan.toString());
+                                    savePlan();
                                     ToastUtil.ToastCenter(getContext(),"已开启一项计划");
                                     planAddListener.planisAdd();
                                     getFragmentManager().popBackStack();
                                 }
                             }else {
                                 //保存计划数据
-                                Plan plan = new Plan();
-                                plan.setContent(content);
-                                plan.setIsremind(reminder.isChecked()? 1:0);
-                                plan.setIsfinished(0);
-                                plan.setPlantime(planTime);
-                                plan.setPreviousTime(previousTime);
-                                plan.save();
-                                Log.d("Plan_",plan.toString());
+                                savePlan();
                                 ToastUtil.ToastCenter(getContext(),"已开启一项计划");
                                 planAddListener.planisAdd();
                                 getFragmentManager().popBackStack();
@@ -243,6 +230,22 @@ public class PlanAddFragment extends Fragment {
 
     }
 
+    private void savePlan(){
+        //保存计划数据
+        Plan plan = new Plan();
+        plan.setContent(contentEv.getText().toString());
+        plan.setIsremind(reminder.isChecked()? 1:0);
+        plan.setIsfinished(0);
+        plan.setPlantime(plantimeTv.getText().toString());
+        plan.setPreviousTime(previousTime);
+        plan.save();
+        Log.d("Plan_",plan.toString());
+
+        User user = LitePal.find(User.class,1);
+        user.setPlancount(user.getPlancount()+1);
+        user.save();
+        Log.d("Plan_","用户："+user.getUsername()+"增加了一条计划");
+    }
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

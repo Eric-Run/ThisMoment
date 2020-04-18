@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.dgut.moment.Bean.Bill;
 import com.dgut.moment.Bean.BillDetail;
 import com.dgut.moment.Bean.Diary;
+import com.dgut.moment.Bean.User;
 import com.dgut.moment.R;
 
 import org.litepal.LitePal;
@@ -78,6 +79,7 @@ public class BillCheckItemAdapter extends RecyclerView.Adapter<BillCheckItemAdap
                         public boolean onMenuItemClick(MenuItem item) {
                             if(item.getItemId()==R.id.bill_delete) {
                                 removeData(position);
+
                                 Toast.makeText(mcontext,holder.bill_detail_tag.getText()+"的账单已被删除",Toast.LENGTH_SHORT).show();
                             }
                             return false;
@@ -115,6 +117,11 @@ public class BillCheckItemAdapter extends RecyclerView.Adapter<BillCheckItemAdap
             }
             bills.get(0).save();
         }
+
+        User user = LitePal.find(User.class,1);
+        user.setBillcount(user.getBillcount()-1);
+        user.save();
+        Log.d("Bill_Add","用户："+user.getUsername()+"减少了一条账单");
 
         billDetails.remove(position);
         //删除动画

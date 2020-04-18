@@ -15,9 +15,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dgut.moment.Bean.Diary;
+import com.dgut.moment.Bean.User;
 import com.dgut.moment.R;
 import com.dgut.moment.Util.DatePickerUtil;
 import com.dgut.moment.Util.ToastUtil;
+
+import org.litepal.LitePal;
 
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
@@ -222,6 +225,11 @@ public class DiaryAddFragment extends Fragment {
 
 //                diarySaveListener.diarySaved();
                     ToastUtil.ToastCenter(getContext(), "成功记下一篇日记");
+
+                    User user = LitePal.find(User.class,1);
+                    user.setDiarycount(user.getDiarycount()+1);
+                    user.save();
+                    Log.d("Diary_Add","用户："+user.getUsername()+"增加了一篇日记");
                 }
             }
         });

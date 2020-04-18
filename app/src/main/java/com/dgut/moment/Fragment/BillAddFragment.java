@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.dgut.moment.Bean.Bill;
 import com.dgut.moment.Bean.BillDetail;
+import com.dgut.moment.Bean.User;
 import com.dgut.moment.R;
 import com.dgut.moment.Util.ConvertUtil;
 import com.dgut.moment.Util.DatePickerUtil;
@@ -121,6 +122,10 @@ public class BillAddFragment extends Fragment {
                 billDetail.setBday(billAddDate.getText().toString());
                 billDetail.save();
                 Log.d("Bill_Add","保存一条账单详情"+billDetail.toString());
+                User user = LitePal.find(User.class,1);
+                user.setBillcount(user.getBillcount()+1);
+                user.save();
+                Log.d("Bill_Add","用户："+user.getUsername()+"增加了一条账单");
 
                 float sum = ConvertUtil.convertToFloat(billAddSum.getText().toString(),-1);
 

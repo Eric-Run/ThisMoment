@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dgut.moment.Bean.Diary;
+import com.dgut.moment.Bean.User;
 import com.dgut.moment.Fragment.DiaryDetailFragment;
 import com.dgut.moment.R;
 
@@ -142,6 +143,10 @@ public class DiaryCheckAdapter extends RecyclerView.Adapter<DiaryCheckAdapter.Vi
     public void removeData(int position) {
         //删除数据库数据
         LitePal.delete(Diary.class,diaries.get(position).getId());
+        User user = LitePal.find(User.class,1);
+        user.setDiarycount(user.getDiarycount()-1);
+        user.save();
+        Log.d("Diary_Add","用户："+user.getUsername()+"减少了一篇日记");
         //删除当前list子数据
         diaries.remove(position);
         //删除动画
