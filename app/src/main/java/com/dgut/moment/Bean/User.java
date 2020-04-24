@@ -7,7 +7,6 @@ public class User extends LitePalSupport {
 
     private int id;
     private String username;
-    private String password;
     private int diarycount;
     private int billcount;
     private int plancount;
@@ -27,14 +26,6 @@ public class User extends LitePalSupport {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public int getDiarycount() {
@@ -74,7 +65,6 @@ public class User extends LitePalSupport {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
                 ", diarycount=" + diarycount +
                 ", billcount=" + billcount +
                 ", plancount=" + plancount +

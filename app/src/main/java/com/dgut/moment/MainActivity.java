@@ -48,106 +48,12 @@ public class MainActivity extends AppCompatActivity {
             user.setDiarycount(0);
             user.setPlancount(0);
             user.setDpassword("-1");
-            user.setPassword("123");
             user.setUsername("用户007");
 
             user.save();
         }else {
             Log.d("USER",users.toString());
         }
-        //测试数据库
- /*       String TAG = "TESTDB";
-        //Dairy
-        //增
-        Diary diary = new Diary();
-        diary.setTitle("测试日记");
-        diary.setContent("测试Diary表的日记");
-        diary.setDate("2020-04-13");
-        diary.setMood("happy");
-        diary.setWeather("sunny");
-        Log.d(TAG,"\n准备加入数据库的diary：\n"+diary.toString());
-        diary.save();
-        Log.d(TAG,"\ndiary已提交");
-        //查
-        List<Diary> diaries = LitePal.where("id = ?","1").find(Diary.class);
-        Log.d(TAG,"\n查找id=1的diary：\n"+diaries.toString());
-        diaries.clear();
-        diaries = LitePal.findAll(Diary.class);
-        Log.d(TAG,"\n查找所有diary：\n"+diaries.toString());
-        //改
-        Diary diary1 = LitePal.find(Diary.class,1);
-        diary1.setTitle("测试修改日记");
-        diary1.save();
-        diary1 = LitePal.find(Diary.class,1);
-        Log.d(TAG,"\n修改后的diary：\n"+diary1.toString());
-        diary1.setWeather("rainy");
-        diary1.updateAll("title = ?","测试修改日记");
-        diaries.clear();
-        diaries = LitePal.where("title = ?","测试修改日记").find(Diary.class);
-        Log.d(TAG,"\n再次修改后的diary：\n"+diaries.toString());
-        //删
-        Diary diary2 = new Diary();
-        diary2.setTitle("测试日记2");
-        diary2.setContent("测试Diary表的日记2");
-        diary2.setDate("2020-04-14");
-        diary2.setMood("scared");
-        diary2.setWeather("sunny");
-        diary2.save();
-        Diary diary3 = new Diary();
-        diary3.setTitle("测试日记3");
-        diary3.setContent("测试Diary表的日记3");
-        diary3.setDate("2020-04-15");
-        diary3.setMood("happy");
-        diary3.setWeather("rainy");
-        diary3.save();
-        diaries.clear();
-        diaries = LitePal.findAll(Diary.class);
-        Log.d(TAG,"\n新增两条diary：\n"+diaries.toString());
-        LitePal.delete(Diary.class,1);
-        diaries.clear();
-        diaries = LitePal.findAll(Diary.class);
-        Log.d(TAG,"\n删除id为1的diary：\n"+diaries.toString());
-        LitePal.deleteAll(Diary.class,"mood = ?","scared");
-        diaries.clear();
-        diaries = LitePal.findAll(Diary.class);
-        Log.d(TAG,"\n删除mood为scared的diary：\n"+diaries.toString());
-
-        //Bill
-        BillDetail detail = new BillDetail();
-        detail.setBday("2020-04-13");
-        detail.setTag("修罗");
-        detail.setSum(-71);
-        detail.save();
-        BillDetail detail1 = new BillDetail();
-        detail1.setBday("2020-04-13");
-        detail1.setTag("魅语");
-        detail1.setSum(-71);
-        detail1.save();
-        Bill bill = new Bill();
-        bill.setBillday("2020-04-13");
-        bill.setOutgo(detail.getSum()+detail1.getSum());
-        bill.save();
-        BillDetail detail2 = new BillDetail();
-        detail2.setBday("2020-03-23");
-        detail2.setTag("萤火");
-        detail2.setSum(-71);
-        detail2.save();
-        Bill bill1 = new Bill();
-        bill1.setBillday("2020-03-23");
-        bill1.setOutgo(detail2.getSum());
-        bill1.save();
-        List<Bill> bills = LitePal.findAll(Bill.class);
-        Log.d(TAG,"\n查找所有Bill：\n"+bills.toString());
-//        LitePal.deleteAll(BillDetail.class,"tag = ?","修罗");
-        BillDetail detail3 = LitePal.find(BillDetail.class,1);
-        List<Bill> bills1 = LitePal.where("billday = ?",detail3.getBday()).find(Bill.class);
-        bills1.get(0).setOutgo(bills1.get(0).getOutgo()-detail3.getSum());
-        bills1.get(0).save();
-        LitePal.delete(BillDetail.class,1);
-        bills.clear();
-        bills = LitePal.findAll(Bill.class);
-        Log.d(TAG,"\n删除id为1的Bill：\n"+bills.toString());
-*/
 
         if(Build.VERSION.SDK_INT >= 23){
             int checkWriteStoragePermission = ContextCompat.checkSelfPermission(MainActivity.this,

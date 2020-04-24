@@ -84,25 +84,6 @@ public class BillCheckFragment extends Fragment {
         Log.d("Bill_Check",billDate.getText().toString());
         bills.clear();
         bills = LitePal.where("billday like ?","%"+billDate.getText().toString()+"%").find(Bill.class);
-        List<BillDetail> billDetails = new ArrayList<>();
-        /*
-//        List<List<BillDetail>> bill = new ArrayList<>();
-
-//        bills.add(new Bill("03-04",100,100));
-//        bills.add(new Bill("03-05",120,110));
-//        bills.add(new Bill("03-06",130,120));
-//        bills.add(new Bill("03-07",140,130));
-
-        billDetails.add(new BillDetail("衣服",-100));
-        billDetails.add(new BillDetail("午饭",-10));
-        billDetails.add(new BillDetail("兼职",120));
-        billDetails.add(new BillDetail("房租",-1130));
-
-        bills.add(new Bill("03-04",100,100, billDetails));
-        bills.add(new Bill("03-05",120,110, billDetails));
-        bills.add(new Bill("03-06",130,120, billDetails));
-        bills.add(new Bill("03-07",140,130, billDetails));
-        bills.add(new Bill("03-08",140,130, billDetails));*/
 
         float in = 0;
         float out = 0;

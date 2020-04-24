@@ -9,7 +9,7 @@ public class Plan extends LitePalSupport implements Serializable {
     private int id;
     private String content;  //计划内容
     private String plantime;  //计划时间
-    private int previousTime;  //计划时间
+    private int previousTime;  //提醒时间
     private int isfinished = 0;  //是否完成，1完成，0未完成
     private int isremind = 0;  //是否提醒，1提醒，0未提醒
 
